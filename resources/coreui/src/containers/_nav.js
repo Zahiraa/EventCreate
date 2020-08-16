@@ -28,34 +28,79 @@ export default userdata.test.user.role===1 ? [
     ],
   },
   {
-    _tag: 'CSidebarNavItem',
+    _tag: 'CSidebarNavDropdown',
     name: 'Categories',
-    to: '/Categories',
+    route: '/Categories',
     icon: 'cil-speedometer',
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Liste',
+        to: '/Categories',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Add',
+        to: '/category/Add',
+      }
+    ],
 
   },
   {
-    _tag: 'CSidebarNavItem',
+    _tag: 'CSidebarNavDropdown',
     name: 'Tags',
     to: '/Tags',
     icon: 'cil-speedometer',
-
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Liste',
+        to: '/Tags',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Add',
+        to: '/tag/Add',
+      }
+    ],
   },
   {
-    _tag: 'CSidebarNavItem',
+    _tag: 'CSidebarNavDropdown',
     name: 'Tickets',
     to: '/Tickets',
     icon: 'cil-speedometer',
-
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Liste',
+        to: '/Tickets',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Add',
+        to: '/ticket/Add',
+      }
+    ],
   },
   {
-    _tag: 'CSidebarNavItem',
+    _tag: 'CSidebarNavDropdown',
     name: userdata.test.user.role===1 ?  'Roles' : '',
     to: '/Roles',
     icon: userdata.test.user.role===1 ?  'cil-speedometer': '',
-
+    _children: [
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Liste',
+        to: '/Roles',
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Add',
+        to: '/role/Add',
+      }
+    ],
   }
-  
+
  /* {
     _tag: 'CSidebarNavTitle',
     _children: ['Theme']
@@ -351,8 +396,8 @@ export default userdata.test.user.role===1 ? [
     _tag: 'CSidebarNavDivider',
     className: 'm-2'
   }*/
-]: 
-userdata.test.user.role===2 ? 
+]:
+userdata.test.user.role===2 ?
 [
   {
     _tag: 'CSidebarNavItem',

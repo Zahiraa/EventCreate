@@ -29,6 +29,14 @@ Route::get('events/{event}','EventController@show');
 Route::post('upload','EventController@upload');
 Route::post('event/new','EventController@stepsCreateEvent');
 Route::post('comment/new','CommentaireController@createComment');
+Route::post('categories/create','CategoryController@createCategory');
+Route::post('categories/checkCategory','CategoryController@checkCategory');
+Route::post('tags/create','TagsController@createTag');
+Route::post('tags/checkTag','TagsController@checkTag');
+Route::post('tickets/create','TicketController@createTicket');
+Route::post('tickets/checkTicket','TicketController@checkTicket');
+Route::post('roles/create','RoleController@createRole');
+Route::post('roles/checkRole','RoleController@checkRole');
 
 
 Route::post('events/create', 'EventController@store');

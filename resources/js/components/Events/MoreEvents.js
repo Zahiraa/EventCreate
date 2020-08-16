@@ -41,7 +41,7 @@ export default class MoreEvents extends React.Component {
 <div>
 
     <HeaderTemplate/>
-    <HomeBanner pic={banner} text={[<h2><strong>EVENTS</strong></h2>]}/>
+    {/*<HomeBanner pic={banner} text={[<h2><strong>EVENTS</strong></h2>]}/>*/}
     <div className="site-section bg-light">
         <div className="container">
             <div className="row">

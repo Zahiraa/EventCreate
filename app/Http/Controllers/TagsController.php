@@ -17,14 +17,28 @@ class TagsController extends Controller
         return ['tags'=>Tags::all()];
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function checkTag(Request $request){
+        $data=$request->input('data');
+        $tag = Tags::where('libelle', '=', $data['libelle'])->first();
+        if ($tag === null) {
+            return response(['exist'=>false], 200);
+        }
+        else{
+            return response(['exist'=>true], 200);
+        }
+    }
+
+
+    public function createTag(Request $request)
     {
-        //
+        $data=$request->input('data');
+        dump($data);
+        $tag=new Tags();
+        $tag->libelle=$data['libelle'];
+        $tag->save();
+
+
+        return response()->json($tag, 201);
     }
 
     /**

@@ -18,14 +18,33 @@ class TicketController extends Controller
 
     }
 
+    public function checkTicket(Request $request){
+        $data=$request->input('data');
+        $ticket = Ticket::where('name', '=', $data['name'])->first();
+        if ($ticket === null) {
+            return response(['exist'=>false], 200);
+        }
+        else{
+            return response(['exist'=>true], 200);
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     *
      */
-    public function create()
+    public function createTicket(Request $request)
     {
-        //
+        $data=$request->input('data');
+        dump($data);
+        $ticket=new Ticket();
+        $ticket->name=$data['name'];
+        $ticket->price=$data['price'];
+        $ticket->save();
+
+
+        return response()->json($ticket, 201);
     }
 
     /**
