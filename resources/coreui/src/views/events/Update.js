@@ -49,9 +49,13 @@ export default class Update extends Component
              medias: '',
              users: '',
              tickets: '',
+          critere: '',
+            limit_places: '',
+          limit_age: '',
           ArrayArtists: [],
           ArrayMedias: [],
           ArrayTickets: [],
+          ArrayCritere: [],
           redirect: false,
 
         }
@@ -92,6 +96,17 @@ export default class Update extends Component
   handleBudget=(event)=>{
         this.setState({
             budget: event.target.value
+        })
+    }
+  handlelimitPlaces=(event)=>{
+      console.log(event.target.value)
+        this.setState({
+          limit_places: event.target.value
+        })
+    }
+  handleAge=(event)=>{
+        this.setState({
+          limit_age: event.target.value
         })
     }
     handleCheckBox=(event)=>{
@@ -178,9 +193,11 @@ export default class Update extends Component
                     users: Response.data.event.user,
                     budget: Response.data.event.budget,
                     tickets: Response.data.event.tickets,
+                  critere: Response.data.event.critere,
                   ArrayMedias: Response.data.medias,
                   ArrayArtists: Response.data.users,
                   ArrayTickets: Response.data.tickets,
+                  ArrayCritere: Response.data.critere,
                 })
                 console.log(Response.data);
             }
@@ -195,8 +212,8 @@ export default class Update extends Component
       console.log(this.state)
         event.preventDefault();
         const id=this.props.match.params.id;
-      const {title, place, status, description, date,ArrayArtists,ArrayMedias,tickets,ArrayTickets} = this.state;
-      const values = {title, place, status, description, date,ArrayArtists,ArrayMedias,tickets,ArrayTickets};
+      const {title, place, status, description, date,ArrayArtists,ArrayMedias,tickets,ArrayTickets,ArrayCritere,limit_places,limit_age} = this.state;
+      const values = {title, place, status, description, date,ArrayArtists,ArrayMedias,tickets,ArrayTickets,ArrayCritere,limit_places,limit_age};
         // axios.put(`/api/event/${id}/update`,{
         //     title: this.state.title,
         //     place: this.state.place,
@@ -229,7 +246,7 @@ export default class Update extends Component
     }
 
     render() {
-
+let critere=this.state.critere
         return(
         <CRow>
             <CCol xs="12" sm="12">
@@ -313,12 +330,12 @@ export default class Update extends Component
                                         />
                                     </CFormGroup>
                                 </CCol>
-                            </CRow><br/><hr style={{width:"40%"}}/>
+                            </CRow><br/><hr/>
 
                             <CRow>
                                 <CCol xs="8">
                                     <CFormGroup>
-                                        <CLabel htmlFor="medias">Medias</CLabel>
+                                        <CLabel htmlFor="medias"  className="text-uppercase">Medias</CLabel>
                                       <div className="row">
                                       {this.state.medias.length>0 ? this.state.medias.map((media,i) => {
                                         return (
@@ -334,11 +351,11 @@ export default class Update extends Component
                                       </div>
                                     </CFormGroup>
                                 </CCol>
-                            </CRow><br/><hr style={{width:"40%"}}/>
+                            </CRow><br/><hr />
                             <CRow>
                                 <CCol xs="8">
                                     <CFormGroup>
-                                        <CLabel htmlFor="medias">Artists</CLabel>
+                                        <CLabel htmlFor="medias"  className="text-uppercase">Artists</CLabel>
                                       <div className="row">
                                       {this.state.users.length>0 ? this.state.users.map((user,i) => {
                                         return (
@@ -354,11 +371,11 @@ export default class Update extends Component
                                       </div>
                                     </CFormGroup>
                                 </CCol>
-                            </CRow><hr style={{width:"40%"}}/>
+                            </CRow><hr/>
                             <CRow>
                                 <CCol xs="8">
                                     <CFormGroup>
-                                        <CLabel htmlFor="medias">Tickets</CLabel>
+                                        <CLabel htmlFor="medias"  className="text-uppercase">Tickets</CLabel>
                                       <div className="row">
                                       {this.state.tickets.length>0 ? this.state.tickets.map((ticket,i) => {
                                         return (
@@ -374,7 +391,38 @@ export default class Update extends Component
                                       </div>
                                     </CFormGroup>
                                 </CCol>
+                            </CRow><hr/>
+                               <CRow>
+                                 <CCol xs="8">
+                                   <CFormGroup>
+                                 <CLabel htmlFor="Criteres" className="text-uppercase">Criteres</CLabel>
+                                   </CFormGroup>
+                                 </CCol>
+                               </CRow>
+                            <CRow>
+                              <CCol xs="4">
+                                <CFormGroup>
+                                  <CLabel htmlFor="limit">limit Places</CLabel>
+                                  <CInput id="limit" placeholder="places"
+                                          required
+                                          onChange={this.handlelimitPlaces}
+                                          defaultValue={critere.limite_places}
+                                  />
+                                </CFormGroup>
+                              </CCol>
+
+                              <CCol xs="4">
+                                <CFormGroup>
+                                  <CLabel htmlFor="age">limit Age</CLabel>
+                                  <CInput id="age" placeholder="age"
+                                          required
+                                          onChange={this.handleAge}
+                                          defaultValue={critere.limite_age}
+                                  />
+                                </CFormGroup>
+                              </CCol>
                             </CRow>
+
                     </CCardBody>
                     <CCardFooter>
                         <CButton type="submit" size="sm" color="primary"> Submit</CButton>

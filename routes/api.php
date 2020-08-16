@@ -28,6 +28,7 @@ Route::get('events/countdownNextEvent/', 'EventController@countdownNextEvent');
 Route::get('events/{event}','EventController@show');
 Route::post('upload','EventController@upload');
 Route::post('event/new','EventController@stepsCreateEvent');
+Route::post('comment/new','CommentaireController@createComment');
 
 
 Route::post('events/create', 'EventController@store');

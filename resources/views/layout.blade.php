@@ -15,6 +15,7 @@
         <link href="{{asset('vendors/lightbox/simpleLightbox.css')}}" rel="stylesheet" >
         <link href="{{asset('vendors/nice-select/css/nice-select.css')}}" rel="stylesheet" >
         <link href="{{asset('vendors/animate-css/animate.css')}}" rel="stylesheet" >
+        <link href="{{asset('css/comments.css')}}" rel="stylesheet" >
 
         <link href="{{asset('css/events/style.css')}}" rel="stylesheet" >
         <link href="{{asset('css/events/fl-bigmug-line.css')}}" rel="stylesheet" >

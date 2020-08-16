@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class MediaSeeder extends Seeder
 {
@@ -37,7 +38,7 @@ class MediaSeeder extends Seeder
         }
 //        4 artistes fixtures
         for($i=0;$i<5;$i++){
-            \App\User::create([
+            DB::table('users')->insert([
                 'name'=>$faker->firstName,
                 'last_name'=>$faker->lastName,
                 'facebook'=>'https://www.facebook.com',
@@ -46,7 +47,7 @@ class MediaSeeder extends Seeder
                 'date_naissance'=>$faker->dateTimeThisCentury(),
                 'biography'=>$faker->text(200),
                 'email'=>$faker->email,
-                'password'=>sha1(1234),
+                'password'=> Hash::make("1234"),
             ]);
         }
 
@@ -97,5 +98,17 @@ class MediaSeeder extends Seeder
 
             ]);
         }
+        //criteres
+
+        for($i=0;$i<5;$i++){
+
+            \App\Critere::create([
+                'limite_places'=>$faker->numberBetween(50,250),
+                'limite_age'=>$faker->numberBetween(30,50),
+                'event_id'=>intval($i+1),
+
+            ]);
+        }
+
     }
 }

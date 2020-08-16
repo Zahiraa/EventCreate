@@ -32,4 +32,8 @@ class Event extends Model
     {
         return $this->belongsToMany('App\Ticket','event_ticket')->withTimestamps();
     }
+    public function comments()
+    {
+        return $this->hasMany('App\Commentaire')->orderBy('created_at','desc');
+    }
 }

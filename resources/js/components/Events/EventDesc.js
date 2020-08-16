@@ -14,6 +14,7 @@ import event04 from '../../../../public/assets/img/event-04.jpg';
 import event05 from '../../../../public/assets/img/event-05.jpg';
 import { Link } from 'react-router-dom';
 import Program from "./Program";
+import CommentForm from "./CommentForm";
 
 
 
@@ -194,38 +195,66 @@ let id=this.props.match.params.id
                     <h2 className="mb-5">Loved By Our Listeners</h2>
                 </div>
             </div>
-              <div className="row">
-                <div className="col-md-4">
-                    <div className="row">
-                        <div className="offset-4 col-md-8">
-                            <img className="w-50 mx-auto img-fluid rounded-circle" src={event01} style={{width:100,height:100,marginBottom:20}}/>
-                        </div>
-                        <div className="col-md-12">
-                            <p className="font-italic site-section-heading text-center mb-5 w-border col-md-6 mx-auto">&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet, fugit nam obcaecati fuga itaque deserunt officia&ldquo;</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-4">
-                    <div className="row">
-                        <div className="offset-4 col-md-8">
-                            <img className="w-50 mx-auto img-fluid rounded-circle" src={event01} style={{width:100,height:100,marginBottom:20}}/>
-                        </div>
-                        <div className="col-md-12">
-                            <p className="font-italic site-section-heading text-center mb-5 w-border col-md-6 mx-auto">&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet, fugit nam obcaecati fuga itaque deserunt officia&ldquo;</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-4">
-                    <div className="row">
-                        <div className="offset-4 col-md-8">
-                            <img className="w-50 mx-auto img-fluid rounded-circle" src={event01} style={{width:100,height:100,marginBottom:20}}/>
-                        </div>
-                        <div className="col-md-12">
-                            <p className="font-italic site-section-heading text-center mb-5 w-border col-md-6 mx-auto">&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet, fugit nam obcaecati fuga itaque deserunt officia&ldquo;</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div className="row">
+                  {this.state.event.comments && this.state.event.comments.length>0?this.state.event.comments.slice(0,3).map((comment) => {
+                      return (
+
+                          <div className="col-md-4">
+                              <div className="row">
+                                  <div className="offset-4 col-md-8">
+                                      <img className="w-50 mx-auto img-fluid rounded-circle" src={event01} style={{width:100,height:100,marginBottom:20}}/>
+                                  </div>
+                                  <div className="col-md-12">
+                                      <p className="font-italic site-section-heading text-center mb-5 w-border col-md-6 mx-auto">
+                                          &ldquo;
+                                          {comment.message}
+                                          &ldquo;</p>
+                                  </div>
+                              </div>
+                          </div>
+
+                      )}):
+
+                      <div className="row">
+                      <div className="col-md-4">
+                          <div className="row">
+                              <div className="offset-4 col-md-8">
+                                  <img className="w-50 mx-auto img-fluid rounded-circle" src={event01} style={{width:100,height:100,marginBottom:20}}/>
+                              </div>
+                              <div className="col-md-12">
+                                  <p className="font-italic site-section-heading text-center mb-5 w-border col-md-6 mx-auto">
+                                      &ldquo;
+                                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet, fugit nam obcaecati fuga itaque deserunt officia
+                                      &ldquo;</p>
+                              </div>
+                          </div>
+                      </div>
+                      <div className="col-md-4">
+                      <div className="row">
+                      <div className="offset-4 col-md-8">
+                      <img className="w-50 mx-auto img-fluid rounded-circle" src={event01} style={{width:100,height:100,marginBottom:20}}/>
+                      </div>
+                      <div className="col-md-12">
+                      <p className="font-italic site-section-heading text-center mb-5 w-border col-md-6 mx-auto">&ldquo;
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet, fugit nam obcaecati fuga itaque deserunt officia&ldquo;</p>
+                      </div>
+                      </div>
+                      </div>
+                      <div className="col-md-4">
+                      <div className="row">
+                      <div className="offset-4 col-md-8">
+                      <img className="w-50 mx-auto img-fluid rounded-circle" src={event01} style={{width:100,height:100,marginBottom:20}}/>
+                      </div>
+                      <div className="col-md-12">
+                      <p className="font-italic site-section-heading text-center mb-5 w-border col-md-6 mx-auto">&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet, fugit nam obcaecati fuga itaque deserunt officia&ldquo;</p>
+                      </div>
+                      </div>
+                      </div>
+                      </div>
+
+                  }
+                      </div>
+
             <div className="nonloop-block-13 owl-carousel">
 
                 <div className="text-center p-3 p-md-5 bg-white">
@@ -429,6 +458,9 @@ let id=this.props.match.params.id
             </div>
         </div>
     </div>
+
+         <CommentForm event={event}/>
+
 
 </div>
 

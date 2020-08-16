@@ -69,7 +69,7 @@ class EventController extends Controller
         if(is_null($exist)){
             return response()->json("Event not found !", 404);
         }
-        $events= Event::with('media')->with('user')->with('categories')->with("tickets")->get();
+        $events= Event::with('media')->with('user')->with('categories')->with("tickets")->with("comments")->get();
         $re= $events->find($event);
         return ['event'=>$re,"event_medias"=>$re->media];
 
@@ -141,6 +141,7 @@ class EventController extends Controller
         $medias=$event->media;
         $users=$event->user;
         $tickets=$event->tickets;
+        $critere=$event->critere->id;
         $ids=[]; $ids_users=[]; $ids_tickets=[];
         foreach ($medias as $media){
             array_push($ids,$media->id);
@@ -152,17 +153,25 @@ class EventController extends Controller
         foreach ($tickets as $ticket){
             array_push($ids_tickets,$ticket->id);
         }
-        $data = ["event"=>$event, "medias"=>$ids,"users"=>$ids_users,"tickets"=>$ids_tickets];
+
+        $data = ["event"=>$event, "medias"=>$ids,"users"=>$ids_users,"tickets"=>$ids_tickets,
+            'critere'=>$critere
+        ];
 
         return response()->json($data, 200);
     }
 
     public function update(Request $request, Event $event)
     {
+
         $data=$request->input('data');
+
        $idsArtists=$data['ArrayArtists'];
        $idsMedias=$data['ArrayMedias'];
         $tickets=$data['ArrayTickets'];
+        $limit_places=$data['limit_places'];
+        $limit_age=$data['limit_age'];
+        $critereId=$data['ArrayCritere'];
 
 
         $event->update(
@@ -198,7 +207,15 @@ class EventController extends Controller
                 $event->tickets()->save($item);
             }
         }
+        if($critereId){
+            $oldCritere=$event->critere();
+            $oldCritere->update([
+                "limite_age"=>$limit_age,
+                "limite_places"=>$limit_places
+                ]
+            );
 
+        }
 
         return response()->json($event, 200);
     }
