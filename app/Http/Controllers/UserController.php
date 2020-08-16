@@ -21,8 +21,14 @@ class UserController extends Controller
      * liste users
      */
     public function liste(){
-        $users=User::with('role')->get();
-        return response()->json($users, 201);
+        $data = DB::table("roles")
+            ->select("users.id","users.name","users.last_name","users.email","roles.libelle as role")
+            ->join('users', 'users.role_id', '=', 'roles.id')
+            ->orderBy("roles.libelle","asc")
+          ->get();
+
+        return response()->json($data, 201);
+
     }
 
     /**
@@ -30,8 +36,14 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::find($id);
-        return response()->json($user, 201);
+      $data = DB::table("roles")
+            ->select("roles.libelle as role","users.*")
+            ->join('users', 'users.role_id', '=', 'roles.id')
+          ->where('users.id',"=",$id)
+            ->orderBy("roles.libelle","asc")
+          ->get()->first();
+
+        return response()->json($data, 201);
 
     }
 
@@ -74,7 +86,7 @@ class UserController extends Controller
 
     public function update(Request $request, User $user,$id)
     {
-    
+
         $user=$user::find($id);
        if($user->update($request->all())){
             // dd($user);die;

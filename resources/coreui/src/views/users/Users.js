@@ -69,10 +69,12 @@ export default class Users extends Component {
           <CDataTable
             items={this.state.users}
             fields={[
-              { key: 'name', _classes: 'font-weight-bold' },
-              { key: 'role_id', _classes: 'font-weight-bold' },
+              { key: 'name', _classes: 'font-weight-normal' },
+              { key: 'last_name', _classes: 'font-weight-normal text-uppercase' },
+              { key: 'role', _classes: 'font-weight-bold text-uppercase' },
+              { key: 'email', _classes: 'font-weight-normal' }, 'actions'
 
-              'email', 'role_id', 'actions'
+
             ]}
             hover
             striped
@@ -93,9 +95,10 @@ export default class Users extends Component {
                 'actions':
                 (item)=>(
                   <td>
-                     <CLink to={`/user/${item.id}/update/`}  type="submit" size="sm" className="btn btn-warning">Update</CLink>
+                    <CLink to={`/user/${item.id}`} size="sm" className="btn btn-primary">Details</CLink>&nbsp;
+                     <CLink to={`/user/${item.id}/update/`}  type="submit" size="sm" className="btn btn-warning">Update</CLink>&nbsp;
                      <CLink size="sm" type="submit" onClick={this.handledelete.bind(this,item.id)} className="btn btn-danger">Delete</CLink>
-                     <CLink to={`/user/${item.id}`} size="sm" className="btn btn-danger">Details</CLink>
+
                   </td>
                 )
             }}

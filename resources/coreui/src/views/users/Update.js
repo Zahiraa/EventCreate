@@ -44,6 +44,7 @@ export default class Update extends Component
             email: '',
             password: '',
             role_id: '',
+             roles: '',
             activation_token: '',
             showMessage: false
 
@@ -58,21 +59,21 @@ export default class Update extends Component
     handleName=(event)=>{
         this.setState({
             name: event.target.value
-        })   
+        })
     }
     handlePassword=(event)=>{
         this.setState({
             password: event.target.value
-        })   
+        })
     }
     handleEmail=(event)=>{
         this.setState({
             email: event.target.value
         })
     }
- 
+
     handleSelectChange = (event) => {
-       this.setState({ 
+       this.setState({
            role_id: event.target.value
         });
       }
@@ -83,18 +84,27 @@ export default class Update extends Component
                 this.setState({
                     name: Response.data.name,
                     email: Response.data.email,
-                    password: Response.data.password,
+                    // password: Response.data.password,
                     role_id: Response.data.role_id,
                     activation_token: Response.data.activation_token
                 })
             }
+        ).catch(err => console.log(err));
+
+        axios.get(`/api/roles`).then(
+          Response => {
+            this.setState({
+             roles:Response.data.roles,
+            })
+          }
         ).catch(err => console.log(err));
     }
 
     handlesubmitform=(event)=>{
         event.preventDefault();
         this.setState({ showMessage: false });
-        const userdata={name: this.state.name, email: this.state.email, password: this.state.password, role_id: this.state.role_id,}
+        // const userdata={name: this.state.name, email: this.state.email, password: this.state.password, role_id: this.state.role_id,}
+        const userdata={name: this.state.name, email: this.state.email, role_id: this.state.role_id,}
         const id=this.props.match.params.id;
         axios.put(`/api/user/${id}/update`,userdata)
         .then((response) => {
@@ -120,13 +130,13 @@ export default class Update extends Component
                     <CCardBody>
 
                             <CRow>
-                                {/* { this.state.showMessage &&  
+                                {/* { this.state.showMessage &&
                                         <CAlert color="success" duration={5000}>
-                                            <strong>Added successfully !</strong>                                       
+                                            <strong>Added successfully !</strong>
                                         </CAlert>
                                 } */}
                             </CRow>
-                        
+
                             <CRow>
                                 <CCol xs="8">
                                 <CFormGroup>
@@ -143,7 +153,7 @@ export default class Update extends Component
                                 <CCol xs="8">
                                     <CFormGroup>
                                         <CLabel htmlFor="email">email</CLabel>
-                                        <CInput type="email" id="email" placeholder="email" 
+                                        <CInput type="email" id="email" placeholder="email"
                                         required
                                         onChange={this.handleEmail}
                                         value={this.state.email}
@@ -155,30 +165,34 @@ export default class Update extends Component
                                 <CCol xs="8">
                                     <CFormGroup>
                                         <CLabel htmlFor="role">role</CLabel>
-                                        <CSelect                                       
+                                        <CSelect
                                             onChange={this.handleSelectChange}
-                                            value={this.state.role_id}                            
-                                        >   
-                                            
-                                            <option value='1'>admin</option>
-                                            <option value='2'>user</option>                                          
-                                            <option value='3'>organisateur</option>
-                                            <option value='4'>artist</option>                                           
-                                            <option value='5'>super_admin</option>
+                                            value={this.state.role_id}
+                                        >
+                                          {this.state.roles &&this.state.roles.length>0?this.state.roles.map((role)=>{
+                                              return(
+
+                                                <option value={role.id}>{role.libelle}</option>
+
+                                              )})
+
+                                            :null
+                                          }
+
                                         </CSelect>
                                     </CFormGroup>
                                 </CCol>
                             </CRow>
                             <CRow>
                                 <CCol xs="8">
-                                    <CFormGroup>
-                                        <CLabel htmlFor="password">Password</CLabel>
-                                        <CInput type="password" id="password" placeholder="pasword" 
-                                        required
-                                        onChange={this.handlePassword}
-                                        
-                                        />
-                                    </CFormGroup>
+                                    {/*<CFormGroup>*/}
+                                    {/*    <CLabel htmlFor="password">Password</CLabel>*/}
+                                    {/*    <CInput type="password" id="password" placeholder="pasword"*/}
+
+                                    {/*    onChange={this.handlePassword}*/}
+
+                                    {/*    />*/}
+                                    {/*</CFormGroup>*/}
                                 </CCol>
                             </CRow>
                     </CCardBody>

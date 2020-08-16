@@ -14,15 +14,15 @@ class MediaSeeder extends Seeder
     {
 
         $faker = \Faker\Factory::create();
-        $roles=['admin','user','organisateur','artist','super_admin','lead singer','drums player','lead guitarist','backing vocal','bassist','keyboard player'];
+        $roles=['admin','user','organisateur','super_admin','lead singer','drums player','lead guitarist','backing vocal','bassist','keyboard player'];
 
-        for($i=0;$i<11;$i++){
+        for($i=0;$i<10;$i++){
             \App\Role::create([
                 'libelle'=>$roles[$i],
             ]);
         }
 
-        for($i=0;$i<11;$i++){
+        for($i=0;$i<10;$i++){
             \App\User::create([
                 'name'=>$faker->firstName,
                 'last_name'=>$faker->lastName,

@@ -29,10 +29,10 @@ export default class User extends Component {
 
   render() {
     // const user = usersData.find( user => user.id.toString() === match.params.id)
-    const userDetails = Object.entries(this.state.user) 
+    const userDetails = Object.entries(this.state.user)
       // [['id', (<span><CIcon className="text-muted" name="cui-icon-ban" /> Not found</span>)]]
   return (
-    
+
     <CRow>
       <CCol lg={12}>
         <CCard>
@@ -42,16 +42,16 @@ export default class User extends Component {
               <table className="table table-striped table-hover">
                 <tbody>
                   {
-                    userDetails !== null 
+                    userDetails !== null
                     ?
                     userDetails.map(([key, value], index) => (
-                     
+
                         <tr key={index.toString()}>
                           <td>{`${key}:`}</td>
                           <td><strong>{value}</strong></td>
                         </tr>
-                      
-                    )) 
+
+                    ))
                     :
                     ''
                   }
