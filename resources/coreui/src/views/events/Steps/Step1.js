@@ -83,7 +83,7 @@ export default class Step1 extends Component
                   <CLabel htmlFor="password-input">title</CLabel>
                 </CCol>
                 <CCol xs="12" md="6">
-                  <CInput type="text" className="form-control" id="title" name="title" onChange={inputChange('title')} value={values.title}/>
+                  <CInput type="text" className="form-control" id="title" name="title" onChange={inputChange('title')} value={values.title} required/>
 
 
                 </CCol>
@@ -94,7 +94,7 @@ export default class Step1 extends Component
                   <CLabel htmlFor="password-input">place</CLabel>
                 </CCol>
                 <CCol xs="12" md="6">
-                  <CInput type="text" className="form-control" id="place" name="place" onChange={inputChange('place')} value={values.place}/>
+                  <CInput type="text" className="form-control" id="place" name="place" onChange={inputChange('place')} value={values.place} required/>
 
                 </CCol>
               </CFormGroup>
@@ -115,7 +115,7 @@ export default class Step1 extends Component
                 </CCol>
                 <CCol xs="12" md="6">
 
-                  <CInput type="date" className="form-control" id="date" name="date" onChange={inputChange('date')} value={values.date}/>
+                  <CInput type="date" className="form-control" id="date" name="date" onChange={inputChange('date')} value={values.date} required/>
                 </CCol>
               </CFormGroup>
 
@@ -126,7 +126,7 @@ export default class Step1 extends Component
             <div className="row">
 
               <div className="col-12 text-right">
-                <button className="btn btn-primary" onClick={this.continue}>Continue</button>
+                <button className="btn btn-primary" type="submit" onClick={this.continue}>Continue</button>
               </div>
             </div>
           </CCardFooter>

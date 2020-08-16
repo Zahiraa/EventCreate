@@ -103,7 +103,7 @@ export default class Step5 extends Component
                     <CLabel htmlFor="password-input">Budget</CLabel>
                   </CCol>
                   <CCol xs="12" md="6">
-                    <CInput type="number" id="budget" name="budget"  onChange={inputChange('budget')} value={values.budget}  />
+                    <CInput type="number" id="budget" name="budget"  onChange={inputChange('budget')} value={values.budget} required />
                   </CCol>
                 </CFormGroup>
 

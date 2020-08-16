@@ -171,7 +171,7 @@ export default class Add extends Component {
                          <CLabel htmlFor="password-input">libelle</CLabel>
                        </CCol>
                        <CCol xs="12" md="6">
-                         <CInput type="text" className="form-control" id="title" name="libelle" onChange={this.inputChange} value={this.state.libelle}/>
+                         <CInput type="text" className="form-control" id="title" name="libelle" onChange={this.inputChange} value={this.state.libelle} required/>
 
 
                        </CCol>

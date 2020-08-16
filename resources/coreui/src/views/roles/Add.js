@@ -84,6 +84,8 @@ export default class Add extends Component {
 
     }) .then(res => {
       const exist = res.data.exist;
+      console.log('exist')
+      console.log(exist)
     if(!exist){
       axios.post('/api/roles/create',{
         data:
@@ -171,7 +173,7 @@ export default class Add extends Component {
                          <CLabel htmlFor="password-input">Libelle</CLabel>
                        </CCol>
                        <CCol xs="12" md="6">
-                         <CInput type="text" className="form-control" id="title" name="libelle" onChange={this.inputChange} value={this.state.libelle}/>
+                         <CInput type="text" className="form-control" id="title" name="libelle" onChange={this.inputChange} value={this.state.libelle}  required/>
 
 
                        </CCol>

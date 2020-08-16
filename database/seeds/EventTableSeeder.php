@@ -17,7 +17,7 @@ class EventTableSeeder extends Seeder
         for ($i = 0; $i < 5; $i++) {
           \App\Event::create([
                 'title' => $faker->text(15),
-                'place' => $faker->text,
+                'place' => $faker->text(15),
                 'status' => $faker->boolean(false),
                 'description' => $faker->realText(),
                 'date' => $faker->date('Y-m-d'),

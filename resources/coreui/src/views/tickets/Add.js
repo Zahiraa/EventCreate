@@ -174,7 +174,7 @@ export default class Add extends Component {
                          <CLabel htmlFor="password-input">name</CLabel>
                        </CCol>
                        <CCol xs="12" md="6">
-                         <CInput type="text" className="form-control" id="place" name="name" onChange={this.inputChange('name')} value={this.state.name}/>
+                         <CInput type="text" className="form-control" id="place" name="name" onChange={this.inputChange('name')} value={this.state.name} required/>
 
                        </CCol>
                      </CFormGroup>
@@ -184,7 +184,7 @@ export default class Add extends Component {
                          <CLabel htmlFor="password-input">price</CLabel>
                        </CCol>
                        <CCol xs="12" md="6">
-                         <CInput type="number" className="form-control" id="price" name="price" onChange={this.inputChange('price')} value={this.state.price}/>
+                         <CInput type="number" className="form-control" id="price" name="price" onChange={this.inputChange('price')} value={this.state.price} required/>
 
                        </CCol>
                      </CFormGroup>
