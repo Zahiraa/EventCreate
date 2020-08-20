@@ -30,7 +30,7 @@ mix.webpackConfig({
     output: {
         chunkFilename: 'js/shunks/[name].js',
     },
-    
+
 });
 mix.react('resources/coreui/src/index.js', 'public/js/dashboard/App.js').version();
 mix.copy('resources/coreui/src/assets', 'public/assets');
