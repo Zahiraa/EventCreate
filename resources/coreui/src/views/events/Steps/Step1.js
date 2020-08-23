@@ -77,7 +77,6 @@ export default class Step1 extends Component
           </CCardHeader>
           <CCardBody>
             <form method="POST" >
-
               <CFormGroup row>
                 <CCol xs="12" md="3">
                   <CLabel htmlFor="password-input">title</CLabel>

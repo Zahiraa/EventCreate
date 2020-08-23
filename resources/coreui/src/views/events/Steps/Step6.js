@@ -76,8 +76,14 @@ export default class Step6 extends Component
   handlesubmitform=(event)=>{
 
     event.preventDefault();
+    const userdata={test: JSON.parse(localStorage["appState"])}
+    let id = userdata.test.user.id;
+    if(!id){
+      id=2
+    }
     axios.post('/api/event/new',{
-      data: this.props.values
+      data: this.props.values,
+      organisateur:id
 
 
     }).then(() => {
@@ -100,6 +106,7 @@ export default class Step6 extends Component
       return  <Redirect to="/events/liste" />;
     }
     const { values, inputChange } = this.props;
+
     return(
       <CRow>
         <CCol xs="12" md="12">

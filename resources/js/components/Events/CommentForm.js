@@ -23,12 +23,14 @@ export default class CommentForm extends React.Component {
 
     }
     componentDidMount() {
-        const userdata={test: JSON.parse(localStorage["appState"])}
-        const id = userdata.test.user.id;
+        if (localStorage.getItem('appState')!= null) {
+            const userdata = {test: JSON.parse(localStorage["appState"])}
+            const id = userdata.test.user.id;
 
-        this.setState({
-            user_id: id,
-        });
+            this.setState({
+                user_id: id,
+            });
+        }
     }
 
     nameChange =  e => {

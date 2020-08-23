@@ -17,7 +17,7 @@ class CreateEventsTable extends Migration
             $table->id();
             $table->string('title');
             $table->string('place');
-            $table->boolean('status');
+            $table->boolean('status')->default(true);
             $table->text('description');
             $table->date('date');
             $table->float('budget');

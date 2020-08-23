@@ -15,6 +15,7 @@ import event05 from '../../../../public/assets/img/event-05.jpg';
 import { Link } from 'react-router-dom';
 import Program from "./Program";
 import CommentForm from "./CommentForm";
+import Axios from "axios";
 
 
 
@@ -25,6 +26,7 @@ export default class EventDesc extends React.Component {
             id:this.props.match.params.id,
             event: [],
             recommended_events: [],
+            payments: [],
 
         }
     }
@@ -54,6 +56,20 @@ export default class EventDesc extends React.Component {
 
     componentDidMount() {
         this.getEventInfos(this.state.id)
+        if (localStorage.getItem('appState')!= null){
+        const userdata={test: JSON.parse(localStorage["appState"])}
+            const idUser = userdata.test.user.id;
+            const url=process.env.MIX_REACT_APP_ROOT
+            getResults(url+'/paymentsByUserAndEvent/'+idUser+"/"+this.state.id,data=>{
+                this.setState({
+                    payments:data.payments,
+                })
+
+            })
+        }
+
+
+
     }
     render() {
         console.log("teeeehis.state")
@@ -75,6 +91,8 @@ export default class EventDesc extends React.Component {
         if(this.state.event.user){
              users=this.state.event.user
         }
+        console.log('users')
+        console.log(users)
 let id=this.props.match.params.id
         return (
      <div>
@@ -196,7 +214,7 @@ let id=this.props.match.params.id
                 </div>
             </div>
             <div className="row">
-                  {this.state.event.comments && this.state.event.comments.length>0?this.state.event.comments.slice(0,3).map((comment) => {
+                  {this.state.event.comments && this.state.event.comments.length>0  && this.state.event.comments.length>=3?this.state.event.comments.slice(0,3).map((comment) => {
                       return (
 
                           <div className="col-md-4">
@@ -327,13 +345,14 @@ let id=this.props.match.params.id
             <div className="row align-items-center justify-content-center text-center">
 
                 <div className="col-md-6" data-aos="fade-up" data-aos-delay="100">
-                    <h2><strong>Get ticket</strong></h2>
+                    <h2><strong>Get ticket</strong></h2><br/>
                     <p className="mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit nihil saepe libero sit odio obcaecati veniam.</p>
-                    <form action="#" method="post" className="site-block-subscribe">
+                    {this.state.payments.length>0?<p>Vous avez deja pris votre ticket<b>&nbsp;&nbsp;Obtenir un autre ticket ?</b></p>:""}
+                    <br/> <form action="#" method="post" className="site-block-subscribe">
                         <div className="input-group mb-3">
 
-                            <Link to={"/Tickets/"+event.id} style={{marginLeft:220,backgroundColor:'#7cbd1e',color:'white'}} className="btn" type="button" id="button-addon2">
-                                <strong>Get ticket</strong>
+                            <Link to={"/Tickets/"+event.id} style={{marginLeft:180,backgroundColor:'#7cbd1e',color:'white',padding: "15px 50px"}} className="btn" type="button" id="button-addon2">
+                                <strong className="text-uppercase">Get ticket</strong>
                             </Link>
 
                         </div>
@@ -353,7 +372,7 @@ let id=this.props.match.params.id
             </div>
             <div className="row">
                 {users?users.map((artist,i) => {
-                    return artist.role.libelle!=="organisateur" &&(
+                    return artist.role.libelle!=="organisateur" && artist.role.libelle!=="user"&& artist.role.libelle!=="admin"&&(
 
 
                 <div key={i} className="col-md-6 col-lg-4 mb-5 mb-lg-5">
@@ -395,10 +414,11 @@ let id=this.props.match.params.id
                  </div>
                  <div className="row">
                      {users?users.map((artist,i) => {
-                         return artist.role.libelle==="organisateur" &&(
+                         {if (artist.role.libelle==="organisateur" || artist.role.libelle==="user" || artist.role.libelle==="admin") {
+                             return (
+                         //return artist.role.libelle==="organisateur" || artist.role.libelle==="user" || artist.role.libelle==="admin" (
 
-
-                             <div key={i} className="col-md-6 col-lg-4 mb-5 mb-lg-5">
+                             <div key={i} className="offset-4 col-md-6 col-lg-4 mb-5 mb-lg-5">
 
                                  <div className="team-member">
 
@@ -419,7 +439,7 @@ let id=this.props.match.params.id
                                  </div>
                              </div>
 
-                         )}): null  }
+                                 )}}}):null}
 
 
                  </div>

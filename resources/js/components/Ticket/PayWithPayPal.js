@@ -11,6 +11,10 @@ function PayWithPayPal (props) {
     const paypalRef = useRef();
     const url=process.env.MIX_REACT_APP_ROOT
     const propss = useRef(props);
+
+    if(items.critere) {
+        var seat = Math.floor(Math.random() * (parseInt(items.critere.limite_places) - 1 + 1)) + 1;
+    }
     useEffect(() => {
         if(props.total) {
             window.paypal
@@ -137,7 +141,11 @@ function PayWithPayPal (props) {
                             <div className="right font-weight-bold">
                                 <div className="seats">section<span>A</span></div>
                                 <div className="seats">row<span>13</span></div>
-                               <div className="seats">seat<span>120</span></div>
+
+                               <div className="seats">seat<span>
+                                   {seat}
+                               </span>
+                               </div>
                             </div>
                         </section>
                     </div>

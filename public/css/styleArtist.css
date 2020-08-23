@@ -1312,7 +1312,7 @@ section {
 .sectionTicket .right {
     float: right;
     width: 160px;
-
+    margin-top: -12px;
 }
 .sectionTicket .event {
     margin-bottom: 10px;
@@ -1334,7 +1334,7 @@ section {
 }
 .sectionTicket .seats {
     margin-bottom: 35px;
-    font-size: 0.36em;
+    font-size:7px;
     text-transform: uppercase;
     text-align: right;
 }

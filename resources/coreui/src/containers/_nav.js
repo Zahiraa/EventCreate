@@ -99,7 +99,14 @@ export default userdata.test.user.role===1 ? [
         to: '/role/Add',
       }
     ],
-  }
+  },
+    {
+      _tag: 'CSidebarNavItem',
+      name: 'Payments',
+      to: '/payments',
+      icon: 'cil-speedometer',
+
+    },
 
  /* {
     _tag: 'CSidebarNavTitle',

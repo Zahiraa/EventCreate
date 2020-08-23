@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('events', 'EventController@index');
+Route::get('events/indexArchivedEvents', 'EventController@indexArchivedEvents');
 Route::get('events/indexOfEventsThisMonth', 'EventController@indexOfEventsThisMonth');
 Route::get('events/indexOfEventsNextMonth', 'EventController@indexOfEventsNextMonth');
 Route::get('users', 'EventController@userss');
@@ -123,3 +124,5 @@ Route::get('tags', 'TagsController@index');
 
 //paymnet
 Route::post('/payment/pay','PaymentController@pay');
+Route::get('/payments/{user}','PaymentController@paymentsByUser');
+Route::get('/paymentsByUserAndEvent/{user}/{event}','PaymentController@paymentsByUserAndEvent');

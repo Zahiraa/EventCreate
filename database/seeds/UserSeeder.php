@@ -35,6 +35,15 @@ class UserSeeder extends Seeder
             ]);
         }
         }
+        //organisateur test
+        for ($i = 1; $i <= 5; $i++) {
+
+                DB::table('user_event')->insert([
+                    'user_id' =>3,
+                    'event_id' => $i
+                ]);
+
+        }
         for ($i = 1; $i < 5; $i++) {
             DB::table('category_event')->insert([
                 'category_id' =>$categories[$i]->id,

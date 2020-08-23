@@ -75,7 +75,7 @@ class MediaSeeder extends Seeder
             'https://i.picsum.photos/id/195/768/1024.jpg?hmac=rksrWrgeGQzOdzXlnzsTWy2L2zYq4gQei3TBMWCmXsI',
         ];
         //medias for users
-        for($i=6;$i<10;$i++){
+        for($i=7;$i<10;$i++){
 
             \App\Media::create([
                 'title'=>$faker->text(10),
@@ -89,7 +89,7 @@ class MediaSeeder extends Seeder
 //        medias for events
         $artists=[1,2,3,4,5];
 
-        for($i=0;$i<5;$i++){
+        for($i=0;$i<6;$i++){
             \App\Media::create([
                 'title'=>$faker->text(10),
                 'url'=>$events[$i],

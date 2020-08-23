@@ -15,15 +15,16 @@ export default class MoreEvents extends React.Component {
         this.state = {
             events: [],
             upcomming_events: [],
+            archived_events: [],
         }
     }
 
     componentWillMount() {
         const url=process.env.MIX_REACT_APP_ROOT
 
-        indexEvents(url+'/events',data=>{
+        indexEvents(url+'/events/indexOfEventsThisMonth',data=>{
             this.setState({
-                events:data,
+                events:data.events,
             })
 
         })
@@ -33,9 +34,17 @@ export default class MoreEvents extends React.Component {
             })
 
         })
+
+        indexEvents(url+'/events/indexArchivedEvents',data=>{
+            this.setState({
+                archived_events:data.events,
+            })
+
+        })
     }
     render() {
     let nextEvents=this.state.upcomming_events
+    let archiveEvents=this.state.archived_events
 
         return (
 <div>
@@ -54,12 +63,11 @@ export default class MoreEvents extends React.Component {
                 {this.state.events.map((event,i) => {
                     return (
                 <div className="col-md-6 col-lg-4 mb-5" data-aos="fade-up" data-aos-delay="100">
-                    {event.media.length>0?(event.media.slice(0, 1).map((media,i) => {
-                        return (
+                    {event.url?
 
-                            <Link to={"/EventDesc/"+event.id}><img key={i} className="img-fluid eventImg" src={media.url} style={{width:340,height:300}}/></Link>
-                        )
-                    })):  <Link to={"/EventDesc/"+event.id}><img  className="img-fluid eventImg" src={img} style={{width:340,height:300}}/></Link>
+
+                            <Link to={"/EventDesc/"+event.id}><img key={i} className="img-fluid eventImg" src={event.url} style={{width:340,height:300}}/></Link>
+                    :  <Link to={"/EventDesc/"+event.id}><img  className="img-fluid eventImg" src={img} style={{width:340,height:300}}/></Link>
                     }
 
                     <div className="p-4 bg-white">
@@ -102,6 +110,34 @@ export default class MoreEvents extends React.Component {
                     </div>
                 </div>
                         )}):<h4 className="alert alert-success commingsoon">Comming Soon ...</h4>}
+            </div>
+
+
+           <br/> <div className="row">
+                <div className="col-md-12 col-lg-4 mb-5" data-aos="fade-up" data-aos-delay="100">
+                    <h3 style={{'textTransform':'uppercase'}} >Archived Events</h3>
+                </div>
+            </div>
+            <div className="row">
+                {archiveEvents.length>0? archiveEvents.map((event,i) => {
+                    return (
+                        <div className="col-md-6 col-lg-4 mb-5" data-aos="fade-up" data-aos-delay="100">
+                            {event.url?
+                              <img key={i} className="img-fluid eventImg" src={event.url} style={{width:340,height:300}}/>
+                               :
+                               <img key={i} className="img-fluid eventImg" src={img} style={{width:340,height:300}}/>
+                            }
+                            <div className="p-4 bg-white">
+                                <span style={{"color": "#6c757d",'textTransform': 'uppercase','fontSize':15}} className="d-block text-secondary small text-uppercase">{event.date}</span>
+                                <h2 className="h5 text-black mb-3" style={{'color': '#517b14;'}} >
+                                   {event.title}
+                                </h2>
+                                <p>
+                                    {event.description}
+                                </p>
+                            </div>
+                        </div>
+                    )}):<h4 className="alert alert-success commingsoon">No archived events  ...</h4>}
             </div>
         </div>
     </div>

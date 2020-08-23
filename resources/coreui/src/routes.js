@@ -51,6 +51,7 @@ const Tags = React.lazy(() => import('./views/tags/Liste'));
 const Tickets = React.lazy(() => import('./views/tickets/Liste'));
 const Roles = React.lazy(() => import('./views/roles/List'));
 const EventListe = React.lazy(() => import('./views/events/Liste'));
+const Payments = React.lazy(() => import('./views/Payments/List'));
 const UpdateEvent = React.lazy(() => import('./views/events/Update'));
 const UpdateCategory = React.lazy(() => import('./views/categories/Update'));
 const UpdateTag = React.lazy(() => import('./views/tags/Update'));
@@ -71,6 +72,7 @@ const routes = [
   { path: '/ticket/add', name: 'Add category', component: TicketAdd },
   { path: '/role/add', name: 'Add role', component: RoleAdd },
   { path: '/events/liste', name: 'Liste Events', component: EventListe },
+  { path: '/payments', name: 'Liste Payments', component: Payments },
   { path: '/events/:id/update', name: 'Update Event', component: UpdateEvent },
   { path: '/categories/:id/update', name: 'Update categorie', component: UpdateCategory },
   { path: '/tags/:id/update', name: 'Update Tag', component: UpdateTag},

@@ -16,6 +16,7 @@ class CreateTableCritere extends Migration
         Schema::create('criteres', function (Blueprint $table) {
             $table->id();
             $table->integer('limite_places');
+            $table->integer('places_reserves')->default(0);
             $table->integer('limite_age');
             $table->timestamps();
         });
