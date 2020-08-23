@@ -73,6 +73,9 @@ Route::get('roles', 'RoleController@index');
 Route::get('medias/{media}','MediaController@show');
 
 
+Route::get('findTicket/{name}','TicketController@findTicket');
+
+
 
 Route::post('medias', 'MediaController@store');
 
@@ -116,3 +119,7 @@ Route::get('categories', 'CategoryController@index');
 Route::get('categories/{category}', 'CategoryController@show');
 //tags
 Route::get('tags', 'TagsController@index');
+
+
+//paymnet
+Route::post('/payment/pay','PaymentController@pay');

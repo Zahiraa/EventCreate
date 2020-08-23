@@ -13,4 +13,9 @@ class Ticket extends Model
 
     }
 
+    public function payments()
+    {
+        return $this->hasMany('App\Payments');
+    }
+
 }

@@ -36,4 +36,8 @@ class Event extends Model
     {
         return $this->hasMany('App\Commentaire')->orderBy('created_at','desc');
     }
+    public function payments()
+    {
+        return $this->hasMany('App\Payments');
+    }
 }

@@ -34,6 +34,8 @@
         <link href="{{asset('css/styleEvent.css')}}" rel="stylesheet" >
         <link href="{{asset('css/styleArtist.css')}}" rel="stylesheet" >
         <link href="{{asset('css/responsive.css')}}" rel="stylesheet" >
+        <script type="text/javascript" src="https://www.2checkout.com/checkout/api/2co.min.js"></script>
+        <script src="https://www.paypal.com/sdk/js?client-id=AexagLr-r8YrKGUPywaymhhrsgUjkM0Ly_BdBc3RyK1nkarGSZWI-YkE4Wp2F_Hf9E4HkTR9bWuPQsje"></script>
     </head>
     <body>
 

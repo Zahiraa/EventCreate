@@ -111,4 +111,8 @@ class TicketController extends Controller
 
         return response()->json(null, 204);
     }
+    public function findTicket($name){
+        $ticket = Ticket::where('name', '=', $name)->first();
+        return ['ticket'=>$ticket];
+    }
 }

@@ -5,7 +5,7 @@ import {getResults} from "../../services";
 import HeaderTemplate from "../HeaderTemplate";
 import banner from "../../../../public/assets/img/banner/home-banner.jpg";
 import HomeBanner from "../Events/HomeBanner";
-
+import { Link } from 'react-router-dom';
 
 
 
@@ -35,7 +35,7 @@ export default class Ticket extends React.Component {
         console.log(this.state)
         console.log(".state")
     let tickets=this.state.event.tickets
-
+        let event=this.props.match.params.event
         return (
             <div>
             <HeaderTemplate/>
@@ -64,7 +64,9 @@ export default class Ticket extends React.Component {
                                                 <li><a href="#">Network In 40 Gb</a></li>
                                             </ul>
                                         </div>
-                                        <a className="price_btn" href="#">Get Started</a>
+                                        <Link to={"/Tickets/"+event+"/"+ticket.name} className="price_btn" type="button" id="button-addon2">
+                                            <strong>Get Started</strong>
+                                        </Link>
                                     </div>
                                 </div>
                             )}):(
