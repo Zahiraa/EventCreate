@@ -24,9 +24,11 @@ export default class Ticket extends React.Component {
         if (localStorage.getItem('appState')!= null) {
             const userdata = {test: JSON.parse(localStorage["appState"])}
             const idUser = userdata.test.user.id;
+            console.log('idUser')
+            console.log(idUser)
             if (idUser) {
-                getResults(url + '/user/' + 18 + '/show', data => {
-                    console.log('data')
+                getResults(url + '/user/' + idUser + '/show', data => {
+                    console.log('dataUser')
                     console.log(data)
                     this.setState({
                         currentUser: data,
@@ -53,17 +55,17 @@ export default class Ticket extends React.Component {
             const idUser = userdata.test.user.id;
             console.log(this.state)
             console.log(".state")
-            console.log(this.state.currentUser.length)
-            if (!this.state.currentUser.id) {
+            console.log(this.state.currentUser)
+            if (!this.state.currentUser) {
                 console.log(".staffffte")
                 //  <Redirect to='/login' />
                 return <Redirect to='/login'/>
             }
 
         }
-        else{
-            return <Redirect to='/login'/>
-        }
+        // else{
+        //     return <Redirect to='/login'/>
+        // }
     let tickets=this.state.event.tickets
         let event=this.props.match.params.event
         return (

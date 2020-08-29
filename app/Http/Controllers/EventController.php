@@ -45,15 +45,16 @@ class EventController extends Controller
     }
     public function indexOfEventsThisMonth()
     {
-        $currentMonth = date('m');
+
         $currentYear= date('Y');
-        $data = DB::table("events")
-            ->select("media.url as url","events.id as id","events.title as title","events.description as description","events.date as date")
-            ->join('media','media.event_id','events.id')
+        $currentMonth = date('m');
+        $events= Event::with('media')->with('user')->with('categories')->with("tickets")->with("comments")->with("critere")
+
             ->whereRaw('MONTH(events.date) = ? ',[$currentMonth])
             ->whereRaw('YEAR(events.date) = ? ',[$currentYear])
             ->get();
-        return   ['events'=>$data];
+
+        return ['events'=>$events];
     }
     public function countdownNextEvent()
     {
@@ -82,7 +83,16 @@ class EventController extends Controller
         if(is_null($exist)){
             return response()->json("Event not found !", 404);
         }
-        $events= Event::with('media')->with('user')->with('categories')->with("tickets")->with("comments")->with("critere")->get();
+        $events= Event::with('media')
+            ->with(['media' => function($query) {
+                $query->orderBy('title', 'desc');
+            }])
+            ->with('user')
+            ->with('categories')
+            ->with("tickets")
+            ->with("comments")
+            ->with("critere")
+            ->get();
         $re= $events->find($event);
         return ['event'=>$re,"event_medias"=>$re->media];
 
@@ -242,18 +252,18 @@ class EventController extends Controller
 
     public function getRecommendedEvents(Event $eventId){
 
-        $events=[];
-        $event= Event::with('media')->with('categories')->get()
-            ->find($eventId);
-        if(is_null(($event))){
-            return response()->json('no recommendations', 200);
-        }
-        foreach($event->categories as $category) {
-            $events = $category->events;
-        }
-        return  ["events"=>compact(array('events'))];
-//        return  ["events"=>$event];
 
+        $event= Event::with('media')->with('categories')->get()->find($eventId);
+
+        $cat=$event->categories->get(0)->libelle;
+
+        $events = Event::with('categories')->with('media')
+            ->whereHas('categories', function ($query) use($cat)
+        {
+            $query->where('libelle', '=', $cat);
+        })
+            ->get();
+        return ["events"=>$events];
     }
     public function getdateEvents(){
 

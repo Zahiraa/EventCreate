@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import axios from 'axios'
+import img from "../../../../../public/assets/img/event1.jpg";
 
 import {
     CButton,
@@ -358,16 +359,19 @@ let critere=this.state.critere
                                         <CLabel htmlFor="medias"  className="text-uppercase">Artists</CLabel>
                                       <div className="row">
                                       {this.state.users.length>0 ? this.state.users.map((user,i) => {
-                                        return (
+
+                                        {if (user.role.libelle!=="organisateur" && user.role.libelle!=="user" && user.role.libelle!=="admin") {
+                                          return (
+
                                           <div className="col-md-3">
-                                      <img src={user.media.url} style={{width:100,height:100}}/>
+                                           <img src={user.media? user.media.url:img} style={{width:100,height:100}}/>
                                       <p><small className="text-uppercase">{user.name} - {user.role.libelle}</small></p>
                                         <input type="checkbox" id={"user-" + user.id} name="users-input"
                                         onChange={this.handleCheckBox}
                                                defaultChecked={true}
                                                value={user.id}
                                         /></div>
-                                      )}):null}
+                                      )}}}):null}
                                       </div>
                                     </CFormGroup>
                                 </CCol>

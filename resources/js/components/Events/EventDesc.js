@@ -16,6 +16,7 @@ import { Link } from 'react-router-dom';
 import Program from "./Program";
 import CommentForm from "./CommentForm";
 import Axios from "axios";
+import EventHeader from "./EventHeader";
 
 
 
@@ -44,7 +45,7 @@ export default class EventDesc extends React.Component {
       })
       getResults(url+'/events/getRecommendedEvents/'+id,data=>{
           this.setState({
-              recommended_events:data.events.events,
+              recommended_events:data.events,
           })
 
       })
@@ -97,61 +98,7 @@ let id=this.props.match.params.id
         return (
      <div>
 
-        <div className="site-wrap">
-
-            <div className="site-navbar mt-4">
-                <div className="container py-1">
-                    <div className="row align-items-center">
-                        <div className="col-8 col-md-8 col-lg-4">
-                            <h1 className="mb-0"><Link to={"/"} className="text-white h2 mb-0"><strong>EventCreate<span className="text-primary">.</span></strong></Link></h1>
-                        </div>
-                        <div className="col-4 col-md-4 col-lg-8">
-                            <nav className="site-navigation text-right text-md-right" role="navigation">
-
-                                <div className="d-inline-block d-lg-none ml-md-0 mr-auto py-3"><a href="#" className="site-menu-toggle js-menu-toggle text-white"><span className="icon-menu h3"></span></a></div>
-
-                                <ul className="site-menu js-clone-nav d-none d-lg-block">
-                                    <li className="active">
-                                        <Link to={"/"}>Home</Link>
-                                    </li>
-                                    <li><Link to="/MoreArtists">Artists</Link></li>
-                                    <li><a href="about.html">About</a></li>
-                                    {/*<li><a href="about.html">Music News</a></li>*/}
-                                    <li><a href="contact.html">Contact</a></li>
-                                </ul>
-                            </nav>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div className="site-mobile-menu">
-            <div className="site-mobile-menu-header">
-                <div className="site-mobile-menu-close mt-3">
-                    <span className="icon-close2 js-menu-toggle"></span>
-                </div>
-            </div>
-            <div className="site-mobile-menu-body"></div>
-        </div>
-
-        <div className="site-blocks-cover overlay"   style={{ backgroundImage: `url(${img})` }} data-aos="fade" data-stellar-background-ratio="0.5" data-aos="fade">
-            <div className="container">
-                <div className="row align-items-center justify-content-center">
-                    <div className="col-md-7 text-center" data-aos="fade-up" data-aos-delay="400">
-                        <h1 className="event_desctitle">{this.state.event.title}</h1>
-                        <p className="mb-4 event_desc"><span className="small">{this.state.event.description}</span></p>
-
-                        <div id="playerContainer"></div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
+         <EventHeader event={this.state.event?this.state.event:[]}/>
     <div className="pb-5" style={{marginTop: -100}}>
         <div className="container-fluid">
 
@@ -159,7 +106,7 @@ let id=this.props.match.params.id
                         {this.state.event && this.state.event.media ?
 
                             (
-                                this.state.event.media.slice(0, 4).map((media,i) => {
+                                this.state.event.media.map((media,i) => {
                             return media.title!=="assurance" && media.title!=="autorisation"?(
 
                                 <div className="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">

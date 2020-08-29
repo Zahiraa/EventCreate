@@ -47,7 +47,7 @@ export default class List extends Component
     }
 
 
-    fields = ['event', 'price','dateEvent', 'datePayment','status']
+    fields = ['event', 'ticket','price','dateEvent', 'datePayment','status']
 
     render() {
 

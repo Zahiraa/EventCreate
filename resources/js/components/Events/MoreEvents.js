@@ -55,6 +55,10 @@ export default class MoreEvents extends React.Component {
         <div className="container">
             <div className="row">
                 <div className="col-md-12 col-lg-4 mb-5" data-aos="fade-up" data-aos-delay="100">
+                    <Link to={"/"}><h5 className="text-muted">
+                        Back to index </h5></Link>
+                </div>
+                <div className="offset-lg-1 col-md-12 col-lg-11 mb-5" data-aos="fade-up" data-aos-delay="100">
                    <h3 id="welcome_area">EVENTS</h3>
                 </div>
             </div>
@@ -63,10 +67,12 @@ export default class MoreEvents extends React.Component {
                 {this.state.events.map((event,i) => {
                     return (
                 <div className="col-md-6 col-lg-4 mb-5" data-aos="fade-up" data-aos-delay="100">
-                    {event.url?
+                    {event.media?
 
 
-                            <Link to={"/EventDesc/"+event.id}><img key={i} className="img-fluid eventImg" src={event.url} style={{width:340,height:300}}/></Link>
+                        <Link to={"/EventDesc/"+event.id}><img key={i} className="img-fluid eventImg" src={event.media[0].url} style={{width:340,height:300}}/></Link>
+
+
                     :  <Link to={"/EventDesc/"+event.id}><img  className="img-fluid eventImg" src={img} style={{width:340,height:300}}/></Link>
                     }
 

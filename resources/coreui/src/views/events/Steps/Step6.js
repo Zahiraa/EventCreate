@@ -128,7 +128,7 @@ export default class Step6 extends Component
                 <div className="right" style={right}>
                   <div className="seats" style={seats}>section<span style={span}>A</span></div>
                   <div className="seats" style={seats}>row<span style={span}>13</span></div>
-                  <div className="seats"  style={seats}>seat<span style={span}>120</span></div>
+                  <div className="seats"  style={seats}>seat<span style={span}>{values.limit_places}</span></div>
                 </div>
               </section>
                    </div>

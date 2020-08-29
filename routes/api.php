@@ -126,3 +126,6 @@ Route::get('tags', 'TagsController@index');
 Route::post('/payment/pay','PaymentController@pay');
 Route::get('/payments/{user}','PaymentController@paymentsByUser');
 Route::get('/paymentsByUserAndEvent/{user}/{event}','PaymentController@paymentsByUserAndEvent');
+
+
+Route::view('/api/{path?}', 'layout');

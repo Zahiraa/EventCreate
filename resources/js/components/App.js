@@ -14,6 +14,7 @@ import WelcomeMessage from "./WelcomeMessage";
 import Artists from "./Events/Artists";
 import Media from "./Events/Media";
 import { BrowserRouter as Router,Route,Switch,MemoryRouter,HashRouter } from 'react-router-dom';
+import { browserHistory } from 'react-router';
 
 import Routes from '../Routes';
 import MoreEvents from "./Events/MoreEvents";
@@ -36,8 +37,8 @@ import TicketType from "./Ticket/TicketType";
           )
         return (
 
-        <HashRouter>
-          <React.Suspense fallback={loading}>
+        <Router>
+          {/*<React.Suspense fallback={loading}>*/}
                     <Switch>
                         <Route path="/"  component={Index}  exact={true}/>
                         <Route path="/MoreEvents" component={MoreEvents} exact={true} />
@@ -50,8 +51,8 @@ import TicketType from "./Ticket/TicketType";
                         <Route path="/Tickets/:event" component={Ticket} exact={true} />
                         <Route path="/Tickets/:event/:type" component={TicketType} exact={true} />
                     </Switch>
-          </React.Suspense>
-        </HashRouter>
+          {/*</React.Suspense>*/}
+        </Router>
 
         );
     }

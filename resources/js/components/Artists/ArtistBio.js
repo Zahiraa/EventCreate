@@ -99,9 +99,7 @@ console.log(list)
                                 <div className="col-lg-8 pt-4 pt-lg-0 content">
                                     {artist.role ? <h3 className="text-uppercase">{artist.role.libelle}</h3> :null}
                                     <p className="font-italic">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore
-                                        magna aliqua.
+                                        {artist.biography}
                                     </p>
                                     <div className="row">
                                         <div className="col-lg-6">
@@ -134,9 +132,7 @@ console.log(list)
                                             </ul>
                                         </div>
                                     </div>
-                                    <p>
-                                        {artist.biography}
-                                    </p>
+
                                 </div>
                             </div>
 
