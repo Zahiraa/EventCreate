@@ -17,14 +17,32 @@ class RoleController extends Controller
         return ['roles'=>Role::all()];
     }
 
+    public function checkRole(Request $request){
+        $data=$request->input('data');
+        $role = Role::where('libelle', '=', $data['libelle'])->first();
+        if ($role === null) {
+            return response(['exist'=>false], 200);
+        }
+        else{
+            return response(['exist'=>true], 200);
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     *
      */
-    public function create()
+    public function createRole(Request $request)
     {
-        //
+        $data=$request->input('data');
+        dump($data);
+        $role=new Role();
+        $role->libelle=$data['libelle'];
+        $role->save();
+
+
+        return response()->json($role, 201);
     }
 
     /**

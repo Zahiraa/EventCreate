@@ -31,9 +31,10 @@ export default class User extends Component {
   render() {
     const userdata={test: JSON.parse(localStorage["appState"])}
     // const user = usersData.find( user => user.id.toString() === match.params.id)
-    const userDetails = Object.entries(this.state.user) 
+    const userDetails = Object.entries(this.state.user)
       // [['id', (<span><CIcon className="text-muted" name="cui-icon-ban" /> Not found</span>)]]
   return (
+
     userdata.test.isLoggedIn===true && userdata.user.role===2 ?
     <>
     <CRow>
@@ -45,16 +46,16 @@ export default class User extends Component {
               <table className="table table-striped table-hover">
                 <tbody>
                   {
-                    userDetails !== null 
+                    userDetails !== null
                     ?
                     userDetails.map(([key, value], index) => (
-                     
+
                         <tr key={index.toString()}>
                           <td>{`${key}:`}</td>
                           <td><strong>{value}</strong></td>
                         </tr>
-                      
-                    )) 
+
+                    ))
                     :
                     ''
                   }

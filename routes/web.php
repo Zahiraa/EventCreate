@@ -22,3 +22,5 @@ Route::get('/', function () {
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/dashboard', 'Dashboard\DashboardController@index')->name('dashboard/app');
 
+Route::view('{path?}', 'layout');
+Route::view('{*}', 'layout');

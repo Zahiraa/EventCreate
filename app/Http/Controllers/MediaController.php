@@ -25,7 +25,7 @@ class MediaController extends Controller
             'url' => 'required',
         ]);
         $media = Media::create($request->all());
-       dd($request->file());
+
         return response()->json($media, 201);
     }
 

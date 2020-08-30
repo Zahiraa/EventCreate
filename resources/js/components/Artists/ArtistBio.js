@@ -99,9 +99,7 @@ console.log(list)
                                 <div className="col-lg-8 pt-4 pt-lg-0 content">
                                     {artist.role ? <h3 className="text-uppercase">{artist.role.libelle}</h3> :null}
                                     <p className="font-italic">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                                        incididunt ut labore et dolore
-                                        magna aliqua.
+                                        {artist.biography}
                                     </p>
                                     <div className="row">
                                         <div className="col-lg-6">
@@ -134,9 +132,7 @@ console.log(list)
                                             </ul>
                                         </div>
                                     </div>
-                                    <p>
-                                        {artist.biography}
-                                    </p>
+
                                 </div>
                             </div>
 
@@ -167,7 +163,7 @@ console.log(list)
                                         <i className="val text-center">{event.created_at.substring(0,10)}</i></span>
                                     </div><br/>
                                                 <div className="col-md-12">
-                                            { event.media && event.media.length>0?event.media.map(med =>
+                                            { event.media && event.media.length>0?event.media.slice(0,1).map(med =>
 
                                                    med.title!=="assurance" && med.title!=="autorisation"?(
                                                  <Link to={"/EventDesc/"+event.id}><img src={med.url} className="img-fluid" alt="ddd" style={{height:150,width:150}}/></Link>

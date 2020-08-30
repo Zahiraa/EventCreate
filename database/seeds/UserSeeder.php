@@ -27,11 +27,22 @@ class UserSeeder extends Seeder
             $events=\App\Event::all()->take(5);
             $categories=\App\Category::all()->take(5);
 
-        for ($i = 1; $i < 5; $i++) {
+        for ($i = 1; $i <= 5; $i++) {
+            for ($j = 6; $j <= 8; $j++) {
             DB::table('user_event')->insert([
-                'user_id' =>6,
+                'user_id' =>$j,
                 'event_id' => $i
             ]);
+        }
+        }
+        //organisateur test
+        for ($i = 1; $i <= 5; $i++) {
+
+                DB::table('user_event')->insert([
+                    'user_id' =>3,
+                    'event_id' => $i
+                ]);
+
         }
         for ($i = 1; $i < 5; $i++) {
             DB::table('category_event')->insert([
@@ -44,6 +55,15 @@ class UserSeeder extends Seeder
                 'category_id' =>2,
                 'event_id' => $events[$i]->id
             ]);
+        }
+
+        for ($i = 1; $i <= 5; $i++) {
+          for ($j = 1; $j <= 3; $j++) {
+            DB::table('event_ticket')->insert([
+                'ticket_id' =>$j,
+                'event_id' => $i
+            ]);
+          }
         }
 
     }

@@ -17,7 +17,6 @@ class CreateTicketsTable extends Migration
             $table->id();
             $table->string('name');
             $table->double('price');
-            $table->date('date');
             $table->timestamps();
         });
     }

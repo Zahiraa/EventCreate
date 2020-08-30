@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class MediaSeeder extends Seeder
 {
@@ -13,15 +14,15 @@ class MediaSeeder extends Seeder
     {
 
         $faker = \Faker\Factory::create();
-        $roles=['admin','user','organisateur','artist','super_admin','lead singer','drums player','lead guitarist','backing vocal','bassist','keyboard player'];
+        $roles=['admin','user','organisateur','super_admin','lead singer','drums player','lead guitarist','backing vocal','bassist','keyboard player'];
 
-        for($i=0;$i<11;$i++){
+        for($i=0;$i<10;$i++){
             \App\Role::create([
                 'libelle'=>$roles[$i],
             ]);
         }
 
-        for($i=0;$i<11;$i++){
+        for($i=0;$i<10;$i++){
             \App\User::create([
                 'name'=>$faker->firstName,
                 'last_name'=>$faker->lastName,
@@ -37,7 +38,7 @@ class MediaSeeder extends Seeder
         }
 //        4 artistes fixtures
         for($i=0;$i<5;$i++){
-            \App\User::create([
+            DB::table('users')->insert([
                 'name'=>$faker->firstName,
                 'last_name'=>$faker->lastName,
                 'facebook'=>'https://www.facebook.com',
@@ -46,7 +47,7 @@ class MediaSeeder extends Seeder
                 'date_naissance'=>$faker->dateTimeThisCentury(),
                 'biography'=>$faker->text(200),
                 'email'=>$faker->email,
-                'password'=>sha1(1234),
+                'password'=> Hash::make("1234"),
             ]);
         }
 
@@ -74,7 +75,7 @@ class MediaSeeder extends Seeder
             'https://i.picsum.photos/id/195/768/1024.jpg?hmac=rksrWrgeGQzOdzXlnzsTWy2L2zYq4gQei3TBMWCmXsI',
         ];
         //medias for users
-        for($i=6;$i<10;$i++){
+        for($i=7;$i<10;$i++){
 
             \App\Media::create([
                 'title'=>$faker->text(10),
@@ -88,7 +89,7 @@ class MediaSeeder extends Seeder
 //        medias for events
         $artists=[1,2,3,4,5];
 
-        for($i=0;$i<5;$i++){
+        for($i=0;$i<6;$i++){
             \App\Media::create([
                 'title'=>$faker->text(10),
                 'url'=>$events[$i],
@@ -97,5 +98,17 @@ class MediaSeeder extends Seeder
 
             ]);
         }
+        //criteres
+
+        for($i=0;$i<5;$i++){
+
+            \App\Critere::create([
+                'limite_places'=>$faker->numberBetween(50,250),
+                'limite_age'=>$faker->numberBetween(30,50),
+                'event_id'=>intval($i+1),
+
+            ]);
+        }
+
     }
 }

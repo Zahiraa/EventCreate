@@ -14,6 +14,9 @@ import event04 from '../../../../public/assets/img/event-04.jpg';
 import event05 from '../../../../public/assets/img/event-05.jpg';
 import { Link } from 'react-router-dom';
 import Program from "./Program";
+import CommentForm from "./CommentForm";
+import Axios from "axios";
+import EventHeader from "./EventHeader";
 
 
 
@@ -24,6 +27,7 @@ export default class EventDesc extends React.Component {
             id:this.props.match.params.id,
             event: [],
             recommended_events: [],
+            payments: [],
 
         }
     }
@@ -41,7 +45,7 @@ export default class EventDesc extends React.Component {
       })
       getResults(url+'/events/getRecommendedEvents/'+id,data=>{
           this.setState({
-              recommended_events:data.events.events,
+              recommended_events:data.events,
           })
 
       })
@@ -53,6 +57,20 @@ export default class EventDesc extends React.Component {
 
     componentDidMount() {
         this.getEventInfos(this.state.id)
+        if (localStorage.getItem('appState')!= null){
+        const userdata={test: JSON.parse(localStorage["appState"])}
+            const idUser = userdata.test.user.id;
+            const url=process.env.MIX_REACT_APP_ROOT
+            getResults(url+'/paymentsByUserAndEvent/'+idUser+"/"+this.state.id,data=>{
+                this.setState({
+                    payments:data.payments,
+                })
+
+            })
+        }
+
+
+
     }
     render() {
         console.log("teeeehis.state")
@@ -74,65 +92,13 @@ export default class EventDesc extends React.Component {
         if(this.state.event.user){
              users=this.state.event.user
         }
+        console.log('users')
+        console.log(users)
 let id=this.props.match.params.id
         return (
      <div>
 
-        <div className="site-wrap">
-
-            <div className="site-navbar mt-4">
-                <div className="container py-1">
-                    <div className="row align-items-center">
-                        <div className="col-8 col-md-8 col-lg-4">
-                            <h1 className="mb-0"><Link to={"/"} className="text-white h2 mb-0"><strong>EventCreate<span className="text-primary">.</span></strong></Link></h1>
-                        </div>
-                        <div className="col-4 col-md-4 col-lg-8">
-                            <nav className="site-navigation text-right text-md-right" role="navigation">
-
-                                <div className="d-inline-block d-lg-none ml-md-0 mr-auto py-3"><a href="#" className="site-menu-toggle js-menu-toggle text-white"><span className="icon-menu h3"></span></a></div>
-
-                                <ul className="site-menu js-clone-nav d-none d-lg-block">
-                                    <li className="active">
-                                        <Link to={"/"}>Home</Link>
-                                    </li>
-                                    <li><Link to="/MoreArtists">Artists</Link></li>
-                                    <li><a href="about.html">About</a></li>
-                                    {/*<li><a href="about.html">Music News</a></li>*/}
-                                    <li><a href="contact.html">Contact</a></li>
-                                </ul>
-                            </nav>
-                        </div>
-
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div className="site-mobile-menu">
-            <div className="site-mobile-menu-header">
-                <div className="site-mobile-menu-close mt-3">
-                    <span className="icon-close2 js-menu-toggle"></span>
-                </div>
-            </div>
-            <div className="site-mobile-menu-body"></div>
-        </div>
-
-        <div className="site-blocks-cover overlay"   style={{ backgroundImage: `url(${img})` }} data-aos="fade" data-stellar-background-ratio="0.5" data-aos="fade">
-            <div className="container">
-                <div className="row align-items-center justify-content-center">
-                    <div className="col-md-7 text-center" data-aos="fade-up" data-aos-delay="400">
-                        <h1 className="event_desctitle">{this.state.event.title}</h1>
-                        <p className="mb-4 event_desc"><span className="small">{this.state.event.description}</span></p>
-
-                        <div id="playerContainer"></div>
-
-                    </div>
-                </div>
-            </div>
-        </div>
-
-
+         <EventHeader event={this.state.event?this.state.event:[]}/>
     <div className="pb-5" style={{marginTop: -100}}>
         <div className="container-fluid">
 
@@ -140,7 +106,7 @@ let id=this.props.match.params.id
                         {this.state.event && this.state.event.media ?
 
                             (
-                                this.state.event.media.slice(0, 4).map((media,i) => {
+                                this.state.event.media.map((media,i) => {
                             return media.title!=="assurance" && media.title!=="autorisation"?(
 
                                 <div className="col-md-6 col-lg-3" data-aos="fade-up" data-aos-delay="100">
@@ -194,38 +160,66 @@ let id=this.props.match.params.id
                     <h2 className="mb-5">Loved By Our Listeners</h2>
                 </div>
             </div>
-              <div className="row">
-                <div className="col-md-4">
-                    <div className="row">
-                        <div className="offset-4 col-md-8">
-                            <img className="w-50 mx-auto img-fluid rounded-circle" src={event01} style={{width:100,height:100,marginBottom:20}}/>
-                        </div>
-                        <div className="col-md-12">
-                            <p className="font-italic site-section-heading text-center mb-5 w-border col-md-6 mx-auto">&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet, fugit nam obcaecati fuga itaque deserunt officia&ldquo;</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-4">
-                    <div className="row">
-                        <div className="offset-4 col-md-8">
-                            <img className="w-50 mx-auto img-fluid rounded-circle" src={event01} style={{width:100,height:100,marginBottom:20}}/>
-                        </div>
-                        <div className="col-md-12">
-                            <p className="font-italic site-section-heading text-center mb-5 w-border col-md-6 mx-auto">&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet, fugit nam obcaecati fuga itaque deserunt officia&ldquo;</p>
-                        </div>
-                    </div>
-                </div>
-                <div className="col-md-4">
-                    <div className="row">
-                        <div className="offset-4 col-md-8">
-                            <img className="w-50 mx-auto img-fluid rounded-circle" src={event01} style={{width:100,height:100,marginBottom:20}}/>
-                        </div>
-                        <div className="col-md-12">
-                            <p className="font-italic site-section-heading text-center mb-5 w-border col-md-6 mx-auto">&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet, fugit nam obcaecati fuga itaque deserunt officia&ldquo;</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <div className="row">
+                  {this.state.event.comments && this.state.event.comments.length>0  && this.state.event.comments.length>=3?this.state.event.comments.slice(0,3).map((comment) => {
+                      return (
+
+                          <div className="col-md-4">
+                              <div className="row">
+                                  <div className="offset-4 col-md-8">
+                                      <img className="w-50 mx-auto img-fluid rounded-circle" src={event01} style={{width:100,height:100,marginBottom:20}}/>
+                                  </div>
+                                  <div className="col-md-12">
+                                      <p className="font-italic site-section-heading text-center mb-5 w-border col-md-6 mx-auto">
+                                          &ldquo;
+                                          {comment.message}
+                                          &ldquo;</p>
+                                  </div>
+                              </div>
+                          </div>
+
+                      )}):
+
+                      <div className="row">
+                      <div className="col-md-4">
+                          <div className="row">
+                              <div className="offset-4 col-md-8">
+                                  <img className="w-50 mx-auto img-fluid rounded-circle" src={event01} style={{width:100,height:100,marginBottom:20}}/>
+                              </div>
+                              <div className="col-md-12">
+                                  <p className="font-italic site-section-heading text-center mb-5 w-border col-md-6 mx-auto">
+                                      &ldquo;
+                                      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet, fugit nam obcaecati fuga itaque deserunt officia
+                                      &ldquo;</p>
+                              </div>
+                          </div>
+                      </div>
+                      <div className="col-md-4">
+                      <div className="row">
+                      <div className="offset-4 col-md-8">
+                      <img className="w-50 mx-auto img-fluid rounded-circle" src={event01} style={{width:100,height:100,marginBottom:20}}/>
+                      </div>
+                      <div className="col-md-12">
+                      <p className="font-italic site-section-heading text-center mb-5 w-border col-md-6 mx-auto">&ldquo;
+                          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet, fugit nam obcaecati fuga itaque deserunt officia&ldquo;</p>
+                      </div>
+                      </div>
+                      </div>
+                      <div className="col-md-4">
+                      <div className="row">
+                      <div className="offset-4 col-md-8">
+                      <img className="w-50 mx-auto img-fluid rounded-circle" src={event01} style={{width:100,height:100,marginBottom:20}}/>
+                      </div>
+                      <div className="col-md-12">
+                      <p className="font-italic site-section-heading text-center mb-5 w-border col-md-6 mx-auto">&ldquo;Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eveniet, fugit nam obcaecati fuga itaque deserunt officia&ldquo;</p>
+                      </div>
+                      </div>
+                      </div>
+                      </div>
+
+                  }
+                      </div>
+
             <div className="nonloop-block-13 owl-carousel">
 
                 <div className="text-center p-3 p-md-5 bg-white">
@@ -298,13 +292,14 @@ let id=this.props.match.params.id
             <div className="row align-items-center justify-content-center text-center">
 
                 <div className="col-md-6" data-aos="fade-up" data-aos-delay="100">
-                    <h2><strong>Get ticket</strong></h2>
+                    <h2><strong>Get ticket</strong></h2><br/>
                     <p className="mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit nihil saepe libero sit odio obcaecati veniam.</p>
-                    <form action="#" method="post" className="site-block-subscribe">
+                    {this.state.payments.length>0?<p>Vous avez deja pris votre ticket<b>&nbsp;&nbsp;Obtenir un autre ticket ?</b></p>:""}
+                    <br/> <form action="#" method="post" className="site-block-subscribe">
                         <div className="input-group mb-3">
 
-                            <Link to={"/Tickets/"+event.id} style={{marginLeft:220,backgroundColor:'#7cbd1e',color:'white'}} className="btn" type="button" id="button-addon2">
-                                <strong>Get ticket</strong>
+                            <Link to={"/Tickets/"+event.id} style={{marginLeft:180,backgroundColor:'#7cbd1e',color:'white',padding: "15px 50px"}} className="btn" type="button" id="button-addon2">
+                                <strong className="text-uppercase">Get ticket</strong>
                             </Link>
 
                         </div>
@@ -324,7 +319,7 @@ let id=this.props.match.params.id
             </div>
             <div className="row">
                 {users?users.map((artist,i) => {
-                    return artist.role.libelle!=="organisateur" &&(
+                    return artist.role.libelle!=="organisateur" && artist.role.libelle!=="user"&& artist.role.libelle!=="admin"&&(
 
 
                 <div key={i} className="col-md-6 col-lg-4 mb-5 mb-lg-5">
@@ -366,10 +361,11 @@ let id=this.props.match.params.id
                  </div>
                  <div className="row">
                      {users?users.map((artist,i) => {
-                         return artist.role.libelle==="organisateur" &&(
+                         {if (artist.role.libelle==="organisateur" || artist.role.libelle==="user" || artist.role.libelle==="admin") {
+                             return (
+                         //return artist.role.libelle==="organisateur" || artist.role.libelle==="user" || artist.role.libelle==="admin" (
 
-
-                             <div key={i} className="col-md-6 col-lg-4 mb-5 mb-lg-5">
+                             <div key={i} className="offset-4 col-md-6 col-lg-4 mb-5 mb-lg-5">
 
                                  <div className="team-member">
 
@@ -390,7 +386,7 @@ let id=this.props.match.params.id
                                  </div>
                              </div>
 
-                         )}): null  }
+                                 )}}}):null}
 
 
                  </div>
@@ -429,6 +425,9 @@ let id=this.props.match.params.id
             </div>
         </div>
     </div>
+
+         <CommentForm event={event}/>
+
 
 </div>
 

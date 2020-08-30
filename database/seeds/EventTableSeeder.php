@@ -17,10 +17,22 @@ class EventTableSeeder extends Seeder
         for ($i = 0; $i < 5; $i++) {
           \App\Event::create([
                 'title' => $faker->text(15),
-                'place' => $faker->text,
-                'status' => $faker->boolean(false),
+                'place' => $faker->text(15),
+                'status' => $faker->boolean(true),
                 'description' => $faker->realText(),
-                'date' => $faker->date('Y-m-d'),
+              "date"=>$faker->dateTimeBetween('+1 day', '+5 days'),
+                'budget' => $faker->randomFloat(2,60,190),
+
+            ]);
+        }
+
+        for ($i = 0; $i < 2; $i++) {
+            \App\Event::create([
+                'title' => $faker->text(15),
+                'place' => $faker->text(15),
+                'status' => $faker->boolean(true),
+                'description' => $faker->realText(),
+                'date' => $faker->dateTimeThisYear('now', '+1 month'),
                 'budget' => $faker->randomFloat(2,60,190),
 
             ]);

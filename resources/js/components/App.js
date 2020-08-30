@@ -14,6 +14,7 @@ import WelcomeMessage from "./WelcomeMessage";
 import Artists from "./Events/Artists";
 import Media from "./Events/Media";
 import { BrowserRouter as Router,Route,Switch,MemoryRouter,HashRouter } from 'react-router-dom';
+import { browserHistory } from 'react-router';
 
 import Routes from '../Routes';
 import MoreEvents from "./Events/MoreEvents";
@@ -25,6 +26,7 @@ import ArtistBio from "./Artists/ArtistBio";
 import Login from '../../coreui/src/views/pages/login/Login';
 import Register from '../../coreui/src/views/pages/register/Register';
 import Ticket from "./Ticket/Ticket";
+import TicketType from "./Ticket/TicketType";
 
  class App extends Component {
     render() {
@@ -37,6 +39,7 @@ import Ticket from "./Ticket/Ticket";
 
         <Router basename="/">
           <React.Suspense fallback={loading}>
+
                     <Switch>
                         <Route path="/"  component={Index}  exact={true}/>
                         <Route path="/MoreEvents" component={MoreEvents} exact={true} />
@@ -47,6 +50,7 @@ import Ticket from "./Ticket/Ticket";
                         <Route path="/login" component={Login} exact={true} />
                         <Route path="/register" component={Register} exact={true} />
                         <Route path="/Tickets/:event" component={Ticket} exact={true} />
+                        <Route path="/Tickets/:event/:type" component={TicketType} exact={true} />
                     </Switch>
           </React.Suspense>
         </Router>

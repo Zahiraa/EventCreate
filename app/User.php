@@ -19,7 +19,10 @@ class User extends Authenticatable
     protected $fillable = [
         'name', 'email', 'password','role_id',
     ];
-
+    public function setPasswordAttribute($password)
+    {
+        return $this->attributes['password'] = bcrypt($password);
+    }
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -52,4 +55,12 @@ class User extends Authenticatable
 
     }
 
+    public function comments()
+    {
+        return $this->hasMany('App\Commentaire');
+    }
+    public function payments()
+    {
+        return $this->hasMany('App\Payments');
+    }
 }

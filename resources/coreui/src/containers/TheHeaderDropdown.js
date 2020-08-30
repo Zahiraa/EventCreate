@@ -9,7 +9,6 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { Link, withRouter  } from 'react-router-dom'
-import logout from '../views/pages/logout/Logout'
 import axios from 'axios'
 import { extend } from 'jquery'
 

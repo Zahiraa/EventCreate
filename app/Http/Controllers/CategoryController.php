@@ -17,15 +17,32 @@ class CategoryController extends Controller
         return ['categories'=>Category::all()];
 
     }
+    public function checkCategory(Request $request){
+        $data=$request->input('data');
+        $category = Category::where('libelle', '=', $data['libelle'])->first();
+        if ($category === null) {
+            return response(['exist'=>false], 200);
+        }
+        else{
+            return response(['exist'=>true], 200);
+        }
+    }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     *
      */
-    public function create()
+    public function createCategory(Request $request)
     {
-        //
+        $data=$request->input('data');
+        dump($data);
+        $category=new Category();
+        $category->libelle=$data['libelle'];
+        $category->save();
+
+
+        return response()->json($category, 201);
     }
 
     /**
@@ -36,7 +53,7 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
     }
 
     /**

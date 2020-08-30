@@ -5,7 +5,7 @@ import {getResults} from "../../services";
 import HeaderTemplate from "../HeaderTemplate";
 import banner from "../../../../public/assets/img/banner/home-banner.jpg";
 import HomeBanner from "../Events/HomeBanner";
-
+import { Link,Redirect } from 'react-router-dom';
 
 
 
@@ -13,14 +13,32 @@ export default class Ticket extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            event:[]
+            event:[],
+            currentUser:[]
 
         }
     }
     componentDidMount() {
 
+        const url=process.env.MIX_REACT_APP_ROOT
+        if (localStorage.getItem('appState')!= null) {
+            const userdata = {test: JSON.parse(localStorage["appState"])}
+            const idUser = userdata.test.user.id;
+            console.log('idUser')
+            console.log(idUser)
+            if (idUser) {
+                getResults(url + '/user/' + idUser + '/show', data => {
+                    console.log('dataUser')
+                    console.log(data)
+                    this.setState({
+                        currentUser: data,
+                    })
 
-    const url=process.env.MIX_REACT_APP_ROOT
+                })
+            }
+        }
+
+
         let event=this.props.match.params.event
         getResults(url+'/events/'+event,data=>{
             this.setState({
@@ -32,10 +50,24 @@ export default class Ticket extends React.Component {
 
 
     render() {
-        console.log(this.state)
-        console.log(".state")
-    let tickets=this.state.event.tickets
+        if (localStorage.getItem('appState')!= null) {
+            const userdata = {test: JSON.parse(localStorage["appState"])}
+            const idUser = userdata.test.user.id;
+            console.log(this.state)
+            console.log(".state")
+            console.log(this.state.currentUser)
+            if (!this.state.currentUser) {
+                console.log(".staffffte")
+                //  <Redirect to='/login' />
+                return <Redirect to='/login'/>
+            }
 
+        }
+        // else{
+        //     return <Redirect to='/login'/>
+        // }
+    let tickets=this.state.event.tickets
+        let event=this.props.match.params.event
         return (
             <div>
             <HeaderTemplate/>
@@ -54,17 +86,23 @@ export default class Ticket extends React.Component {
                                     <div className="price_item">
                                         <div className="price_text">
                                             <h3>{ticket.name}</h3>
-                                            <h5>Individuals/Freelancers</h5>
-                                            <h2>£{ticket.price}<span>/mo</span></h2>
+                                            <h2>£{ticket.price}<span></span></h2>
                                             <ul className="list">
-                                                <li><a href="#">RAM 1 GB</a></li>
-                                                <li><a href="#">Core CPU 1</a></li>
-                                                <li><a href="#">SSD Storage 20 GB</a></li>
-                                                <li><a href="#">Transfer 1 TB</a></li>
-                                                <li><a href="#">Network In 40 Gb</a></li>
+                                                <li><a href="#">Lorem ipsum</a></li>
+                                                <li><a href="#">dolor sit amet </a></li>
+                                                <li><a href="#">consectetur adipiscing </a></li>
+                                                <li><a href="#"> Maecenas vulputate </a></li>
+                                                <li><a href="#">Lorem ipsum </a></li>
                                             </ul>
                                         </div>
-                                        <a className="price_btn" href="#">Get Started</a>
+                                        {this.state.event.critere && this.state.event.critere.places_reserves<this.state.event.critere.limite_places?
+                                            <Link to={"/Tickets/"+event+"/"+ticket.name} className="price_btn" type="button" id="button-addon2">
+                                                <strong>Get Started</strong>
+
+                                            </Link>:
+                                            <div className="text-uppercase price_btn">Toutes les places reservées</div>
+                                        }
+
                                     </div>
                                 </div>
                             )}):(

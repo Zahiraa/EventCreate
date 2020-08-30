@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('events', 'EventController@index');
+Route::get('events/indexArchivedEvents', 'EventController@indexArchivedEvents');
 Route::get('events/indexOfEventsThisMonth', 'EventController@indexOfEventsThisMonth');
 Route::get('events/indexOfEventsNextMonth', 'EventController@indexOfEventsNextMonth');
 Route::get('users', 'EventController@userss');
@@ -28,6 +29,15 @@ Route::get('events/countdownNextEvent/', 'EventController@countdownNextEvent');
 Route::get('events/{event}','EventController@show');
 Route::post('upload','EventController@upload');
 Route::post('event/new','EventController@stepsCreateEvent');
+Route::post('comment/new','CommentaireController@createComment');
+Route::post('categories/create','CategoryController@createCategory');
+Route::post('categories/checkCategory','CategoryController@checkCategory');
+Route::post('tags/create','TagsController@createTag');
+Route::post('tags/checkTag','TagsController@checkTag');
+Route::post('tickets/create','TicketController@createTicket');
+Route::post('tickets/checkTicket','TicketController@checkTicket');
+Route::post('roles/create','RoleController@createRole');
+Route::post('roles/checkRole','RoleController@checkRole');
 
 
 Route::post('events/create', 'EventController@store');
@@ -40,6 +50,7 @@ Route::get('ticket/{id}/edit', 'TicketController@edit');
 Route::get('role/{id}/edit', 'RoleController@edit');
 
 Route::put('event/{event}/update', 'EventController@update');
+Route::put('eventWithAllInfos/{event}/update', 'EventController@update');
 Route::put('category/{category}/update', 'CategoryController@update');
 Route::put('tags/{tags}/update', 'TagsController@update');
 Route::put('ticket/{ticket}/update', 'TicketController@update');
@@ -61,6 +72,9 @@ Route::get('roles', 'RoleController@index');
 
 
 Route::get('medias/{media}','MediaController@show');
+
+
+Route::get('findTicket/{name}','TicketController@findTicket');
 
 
 
@@ -107,3 +121,12 @@ Route::get('categories', 'CategoryController@index');
 Route::get('categories/{category}', 'CategoryController@show');
 //tags
 Route::get('tags', 'TagsController@index');
+
+
+//paymnet
+Route::post('/payment/pay','PaymentController@pay');
+Route::get('/payments/{user}','PaymentController@paymentsByUser');
+Route::get('/paymentsByUserAndEvent/{user}/{event}','PaymentController@paymentsByUserAndEvent');
+
+
+Route::view('/api/{path?}', 'layout');

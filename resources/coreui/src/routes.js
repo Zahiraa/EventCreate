@@ -43,11 +43,16 @@ const Profile = React.lazy(() => import('./views/users/Profile'));
 const UpdateUser = React.lazy(() => import('./views/users/Update'));
 const Events = React.lazy(()=> import('./views/events/Liste'))
 const EventAdd = React.lazy(() => import('./views/events/Add'));
+const CategoryAdd = React.lazy(() => import('./views/categories/Add'));
+const TagAdd = React.lazy(() => import('./views/tags/Add'));
+const TicketAdd = React.lazy(() => import('./views/tickets/Add'));
+const RoleAdd = React.lazy(() => import('./views/roles/Add'));
 const Categories = React.lazy(() => import('./views/categories/Liste'));
 const Tags = React.lazy(() => import('./views/tags/Liste'));
 const Tickets = React.lazy(() => import('./views/tickets/Liste'));
 const Roles = React.lazy(() => import('./views/roles/List'));
 const EventListe = React.lazy(() => import('./views/events/Liste'));
+const Payments = React.lazy(() => import('./views/Payments/List'));
 const UpdateEvent = React.lazy(() => import('./views/events/Update'));
 const UpdateCategory = React.lazy(() => import('./views/categories/Update'));
 const UpdateTag = React.lazy(() => import('./views/tags/Update'));
@@ -63,7 +68,12 @@ const routes = [
   { path: '/tags', name: 'tags', component: Tags, exact: true},
   { path: '/roles', name: 'roles', component: Roles, exact: true},
   { path: '/events/add', name: 'Add Event', component: EventAdd },
+  { path: '/category/add', name: 'Add category', component: CategoryAdd },
+  { path: '/tag/add', name: 'Add category', component: TagAdd },
+  { path: '/ticket/add', name: 'Add category', component: TicketAdd },
+  { path: '/role/add', name: 'Add role', component: RoleAdd },
   { path: '/events/liste', name: 'Liste Events', component: EventListe },
+  { path: '/payments', name: 'Liste Payments', component: Payments },
   { path: '/events/:id/update', name: 'Update Event', component: UpdateEvent },
   { path: '/categories/:id/update', name: 'Update categorie', component: UpdateCategory },
   { path: '/tags/:id/update', name: 'Update Tag', component: UpdateTag},

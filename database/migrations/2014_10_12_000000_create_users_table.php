@@ -24,7 +24,7 @@ class CreateUsersTable extends Migration
             $table->string('city')->nullable();
             $table->string('biography')->nullable();
             $table->date('date_naissance')->nullable();
-            $table->string('password');
+            $table->string('password', 64);
             $table->rememberToken();
             $table->timestamps();
         });

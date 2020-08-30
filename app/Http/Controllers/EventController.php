@@ -6,6 +6,7 @@ use App\Category;
 use App\Critere;
 use App\Event;
 use App\Media;
+use App\Role;
 use App\Tags;
 use App\Ticket;
 use App\User;
@@ -20,27 +21,40 @@ class EventController extends Controller
 {
     public function userss()
     {
-//        return Event::all();
+
         $users=  \App\User::all();
         return $users;
     }
     public function index()
     {
-//        return Event::all();
-        $events= Event::with('media')->with('categories')->get();
+        $events= Event::with('media')->with('categories')->get()->where('status','=',true);
         return $events;
     }
-    public function indexOfEventsThisMonth()
+
+    public function indexArchivedEvents()
     {
         $currentMonth = date('m');
         $currentYear= date('Y');
         $data = DB::table("events")
-            ->select("media.url","events.id as id","events.title as title","events.description as description")
+            ->select("media.url","events.id as id","events.title as title","events.description as description","events.date as date")
             ->join('media','media.event_id','events.id')
-            ->whereRaw('MONTH(events.created_at) = ? ',[$currentMonth])
-            ->whereRaw('YEAR(events.created_at) = ? ',[$currentYear])
+            ->whereRaw('MONTH(events.date) < ? AND YEAR(events.date) < ? ',[$currentMonth,$currentYear])
+            ->orWhereRaw('MONTH(events.date) < ? AND YEAR(events.date) = ? ',[$currentMonth,$currentYear])
             ->get();
         return   ['events'=>$data];
+    }
+    public function indexOfEventsThisMonth()
+    {
+
+        $currentYear= date('Y');
+        $currentMonth = date('m');
+        $events= Event::with('media')->with('user')->with('categories')->with("tickets")->with("comments")->with("critere")
+
+            ->whereRaw('MONTH(events.date) = ? ',[$currentMonth])
+            ->whereRaw('YEAR(events.date) = ? ',[$currentYear])
+            ->get();
+
+        return ['events'=>$events];
     }
     public function countdownNextEvent()
     {
@@ -69,7 +83,16 @@ class EventController extends Controller
         if(is_null($exist)){
             return response()->json("Event not found !", 404);
         }
-        $events= Event::with('media')->with('user')->with('categories')->with("tickets")->get();
+        $events= Event::with('media')
+            ->with(['media' => function($query) {
+                $query->orderBy('title', 'desc');
+            }])
+            ->with('user')
+            ->with('categories')
+            ->with("tickets")
+            ->with("comments")
+            ->with("critere")
+            ->get();
         $re= $events->find($event);
         return ['event'=>$re,"event_medias"=>$re->media];
 
@@ -136,13 +159,86 @@ class EventController extends Controller
     }
 
     public function edit($id){
-        $event=Event::find($id);
-        return response()->json($event, 200);
+
+        $event= Event::with('user','media')->with('media')->with('tickets')->with('critere')->get()->find($id);
+        $medias=$event->media;
+        $users=$event->user;
+        $tickets=$event->tickets;
+        $critere=$event->critere->id;
+        $ids=[]; $ids_users=[]; $ids_tickets=[];
+        foreach ($medias as $media){
+            array_push($ids,$media->id);
+        }
+
+        foreach ($users as $user){
+            array_push($ids_users,$user->id);
+        }
+        foreach ($tickets as $ticket){
+            array_push($ids_tickets,$ticket->id);
+        }
+
+        $data = ["event"=>$event, "medias"=>$ids,"users"=>$ids_users,"tickets"=>$ids_tickets,
+            'critere'=>$critere
+        ];
+
+        return response()->json($data, 200);
     }
 
     public function update(Request $request, Event $event)
     {
-        $event->update($request->all());
+
+        $data=$request->input('data');
+
+       $idsArtists=$data['ArrayArtists'];
+       $idsMedias=$data['ArrayMedias'];
+        $tickets=$data['ArrayTickets'];
+        $limit_places=$data['limit_places'];
+        $limit_age=$data['limit_age'];
+        $critereId=$data['ArrayCritere'];
+
+
+        $event->update(
+            [
+                'title'=>$data['title'],
+                'place'=>$data['place'],
+                'status'=>$data['status'],
+                'description'=>$data['description'],
+                'date'=>$data['date'],
+             ]);
+
+        if($idsArtists){
+            $event->user()->sync([]);
+            foreach ($idsArtists as $user){
+                $item=User::find($user);
+                $event->user()->save($item);
+            }
+        }
+        if($idsMedias){
+            $old=$event->media();
+            $old->update(["event_id"=>null]);
+
+            foreach ($idsMedias as $media){
+                $item=Media::find($media);
+                $event->media()->save($item);
+            }
+        }
+
+        if($tickets){
+            $event->tickets()->sync([]);
+            foreach ($tickets as $ticket){
+                $item=Ticket::find($ticket);
+                $event->tickets()->save($item);
+            }
+        }
+        if($critereId){
+            $oldCritere=$event->critere();
+            $oldCritere->update([
+                "limite_age"=>$limit_age,
+                "limite_places"=>$limit_places
+                ]
+            );
+
+        }
 
         return response()->json($event, 200);
     }
@@ -156,18 +252,18 @@ class EventController extends Controller
 
     public function getRecommendedEvents(Event $eventId){
 
-        $events=[];
-        $event= Event::with('media')->with('categories')->get()
-            ->find($eventId);
-        if(is_null(($event))){
-            return response()->json('no recommendations', 200);
-        }
-        foreach($event->categories as $category) {
-            $events = $category->events;
-        }
-        return  ["events"=>compact(array('events'))];
-//        return  ["events"=>$event];
 
+        $event= Event::with('media')->with('categories')->get()->find($eventId);
+
+        $cat=$event->categories->get(0)->libelle;
+
+        $events = Event::with('categories')->with('media')
+            ->whereHas('categories', function ($query) use($cat)
+        {
+            $query->where('libelle', '=', $cat);
+        })
+            ->get();
+        return ["events"=>$events];
     }
     public function getdateEvents(){
 
@@ -237,8 +333,8 @@ class EventController extends Controller
     }
 
     public function  stepsCreateEvent(Request $request){
-       // dd($request);
-$data=$request->input('data');
+
+       $data=$request->input('data');
 
         $id=$data['categoryID'];
         $tags=$data['tagsID'];
@@ -254,12 +350,7 @@ $data=$request->input('data');
         $age=$data['limit_age'];
         $places=$data['limit_places'];
 
-//        $this->validate($data, [
-//            'title' => 'required|max:50',
-//            'description' => 'required',
-//            'date' => 'required',
-//
-//        ]);
+
         //tickets
         $tickets=$data['ticket'];
         $uniqueTickets = array_unique($tickets);
@@ -271,8 +362,23 @@ $data=$request->input('data');
         $event->description=$data['description'];
         $event->date=$data['date'];
         $event->budget=$data['budget'];
+        $event->status=1;
 
         $event->save();
+
+        //organisateur
+        $organisateurId=$request->input('organisateur');
+        $organisateur=User::find($organisateurId);
+        if($organisateur){
+            $event->user()->save($organisateur);
+        }else{
+            $role = Role::where("libelle", '=', "organisateur")->first();
+            if($role){
+                $organisateur = User::where("role_id", '=', $role->id)->first(); //organisateur par default
+            }
+
+            $event->user()->save($organisateur);
+        }
 
         if($uniqueItems){
             foreach ($uniqueItems as $tag){
@@ -342,5 +448,8 @@ $data=$request->input('data');
 
 
         return response()->json($event, 201);
+    }
+    public function eventWithAllInfos($id,Request $request){
+      dd(Event::find($id));
     }
 }
