@@ -107,8 +107,10 @@ export default class Update extends Component
 
         // const { selectedOption } = this.state;
         // const value = selectedOption && selectedOption.value;
-
+        const userdata={test: JSON.parse(localStorage["appState"])}
         return(
+            userdata.test.isLoggedIn===true && userdata.user.role===1 || userdata.test.isLoggedIn===true && userdata.user.role===5 ?
+            <>
         <CRow>
             <CCol xs="12" sm="12">
               <CCard>
@@ -189,6 +191,9 @@ export default class Update extends Component
               </CCard>
             </CCol>
           </CRow>
+          </>
+          : 
+          window.location.href="/"
         );
     }
 }

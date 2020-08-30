@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import {
   CBadge,
   CDropdown,
@@ -8,8 +8,54 @@ import {
   CImg
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+import { Link, withRouter  } from 'react-router-dom'
+import logout from '../views/pages/logout/Logout'
+import axios from 'axios'
+import { extend } from 'jquery'
 
-const TheHeaderDropdown = () => {
+class TheHeaderDropdown extends Component {
+
+  constructor(props){
+    super(props);
+    this.state={};
+    this.logOut = this.logOut.bind(this);
+  }
+
+  // logout = (e) => {
+  //   e.preventDefault()
+  //   console.log('tessssssssssssssssssssssssssssssssssssssssst')
+  //   localStorage.removeItem('appState')
+  //   console.log(this.props.history)
+  //   this.props.history.push('/')
+  //   location.reload()
+    
+//   // e.preventDefault();
+//   // let url=process.env.MIX_REACT_APP_ROOT
+//   //let route = e.target.getAttribute("action");
+//   // axios.get(url+"/auth/logout").then(response => {
+//   //   localStorage.removeItem('appState');
+//   //   this.props.history.push('localhost:8000');
+//   // }).catch(error => {
+//   //   console.log(error);
+//   // })
+//   console.log("route ->");
+// }
+
+logOut= (e) => {
+  e.preventDefault()
+  console.log('/privacy-policy')
+  let appState = {
+    isLoggedIn: false,
+    user: {}
+  };
+  localStorage["appState"] = JSON.stringify(appState);
+  this.setState(appState);
+  this.props.history.push('/privacy-policy');
+  window.location.href="/login";
+}
+
+render(){
+
   return (
     <CDropdown
       inNav
@@ -65,28 +111,33 @@ const TheHeaderDropdown = () => {
         <CDropdownItem>
           <CIcon name="cil-user" className="mfe-2" />Profile
         </CDropdownItem>
-        <CDropdownItem>
+        {/* <CDropdownItem>
           <CIcon name="cil-settings" className="mfe-2" /> 
           Settings
-        </CDropdownItem>
+        </CDropdownItem> */}
         <CDropdownItem>
           <CIcon name="cil-credit-card" className="mfe-2" /> 
           Payments
           <CBadge color="secondary" className="mfs-auto">42</CBadge>
         </CDropdownItem>
-        <CDropdownItem>
+        {/* <CDropdownItem>
           <CIcon name="cil-file" className="mfe-2" /> 
           Projects
           <CBadge color="primary" className="mfs-auto">42</CBadge>
-        </CDropdownItem>
+        </CDropdownItem> */}
         <CDropdownItem divider />
         <CDropdownItem>
           <CIcon name="cil-lock-locked" className="mfe-2" /> 
           Lock Account
         </CDropdownItem>
+        <CDropdownItem onClick={this.logOut}>
+          <CIcon name="cil-account-logout" className="mfe-2" /> 
+          Log Out
+        </CDropdownItem>
       </CDropdownMenu>
     </CDropdown>
   )
 }
+}
 
-export default TheHeaderDropdown
+export default withRouter(TheHeaderDropdown)

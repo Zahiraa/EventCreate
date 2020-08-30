@@ -5,10 +5,14 @@ import {
   TheFooter,
   TheHeader
 } from './index'
+import { Switch, Route, Redirect } from 'react-router-dom';
 
 const TheLayout = () => {
-
+  const userdata={test: JSON.parse(localStorage["appState"])}
   return (
+    userdata.test.isLoggedIn===true ?
+    <>
+    
     <div className="c-app c-default-layout">
       <TheSidebar/>
       <div className="c-wrapper">
@@ -19,6 +23,10 @@ const TheLayout = () => {
         <TheFooter/>
       </div>
     </div>
+    
+    
+    </>: 
+    window.location.href="/"
   )
 }
 

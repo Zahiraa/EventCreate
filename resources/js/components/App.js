@@ -35,7 +35,7 @@ import Ticket from "./Ticket/Ticket";
           )
         return (
 
-        <HashRouter>
+        <Router basename="/">
           <React.Suspense fallback={loading}>
                     <Switch>
                         <Route path="/"  component={Index}  exact={true}/>
@@ -49,7 +49,7 @@ import Ticket from "./Ticket/Ticket";
                         <Route path="/Tickets/:event" component={Ticket} exact={true} />
                     </Switch>
           </React.Suspense>
-        </HashRouter>
+        </Router>
 
         );
     }

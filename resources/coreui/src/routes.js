@@ -38,6 +38,7 @@ const Typography = React.lazy(() => import('./views/theme/typography/Typography'
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'));
 const Users = React.lazy(() => import('./views/users/Users'));
 const User = React.lazy(() => import('./views/users/User'));
+const Profile = React.lazy(() => import('./views/users/Profile'));
 
 const UpdateUser = React.lazy(() => import('./views/users/Update'));
 const Events = React.lazy(()=> import('./views/events/Liste'))
@@ -107,6 +108,7 @@ const routes = [
   { path: '/widgets', name: 'Widgets', component: Widgets },
   { path: '/users', exact: true,  name: 'Users', component: Users },
   { path: '/user/:id', exact: true, name: 'User Details', component: User },
+  { path: 'user/profile/', exact: true, name: 'User Profile', component: Profile },
   { path: '/user/:id/update', name: 'User Update', component: UpdateUser }
 ];
 

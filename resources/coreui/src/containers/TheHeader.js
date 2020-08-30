@@ -37,6 +37,9 @@ const TheHeader = () => {
     dispatch({type: 'set', sidebarShow: val})
   }
 
+  const userdata={test: JSON.parse(localStorage["appState"])}
+  {console.log(userdata.test.user.role)}
+
   return (
     <CHeader withSubheader>
       <CToggler
@@ -57,12 +60,15 @@ const TheHeader = () => {
         <CHeaderNavItem className="px-3" >
           <CHeaderNavLink to="/dashboard">Dashboard</CHeaderNavLink>
         </CHeaderNavItem>
+        {userdata.test.user.role===1 || userdata.test.user.role===5 ?
         <CHeaderNavItem  className="px-3">
           <CHeaderNavLink to="/users">Users</CHeaderNavLink>
         </CHeaderNavItem>
-        <CHeaderNavItem className="px-3">
+        : ''
+        }
+        {/* <CHeaderNavItem className="px-3">
           <CHeaderNavLink>Settings</CHeaderNavLink>
-        </CHeaderNavItem>
+        </CHeaderNavItem> */}
       </CHeaderNav>
 
       <CHeaderNav className="px-3">
@@ -88,9 +94,9 @@ const TheHeader = () => {
             >
               <CIcon name="cil-graph" alt="Dashboard" />&nbsp;Dashboard
             </CLink>
-            <CLink className="c-subheader-nav-link" href="#">
+            {/* <CLink className="c-subheader-nav-link" href="#">
               <CIcon name="cil-settings" alt="Settings" />&nbsp;Settings
-            </CLink>
+            </CLink> */}
           </div>
       </CSubheader>
     </CHeader>

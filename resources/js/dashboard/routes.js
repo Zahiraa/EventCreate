@@ -37,6 +37,7 @@ const Typography = React.lazy(() => import('./views/theme/typography/Typography'
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'));
 const Users = React.lazy(() => import('./views/users/Users'));
 const User = React.lazy(() => import('./views/users/User'));
+const logout = React.lazy(() => import('./views/pages/logout/Logout'));
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
