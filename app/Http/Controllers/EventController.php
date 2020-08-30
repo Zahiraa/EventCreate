@@ -12,6 +12,7 @@ use App\Ticket;
 use App\User;
 use Faker\Provider\Image;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notification;
 use Illuminate\Support\Facades\App;
 Use \Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -79,6 +80,8 @@ class EventController extends Controller
     }
     public function show( $event)
     {
+
+
         $exist=Event::find($event);
         if(is_null($exist)){
             return response()->json("Event not found !", 404);
@@ -446,10 +449,33 @@ class EventController extends Controller
             $event->critere()->save($critere);
         }
 
+        $notification = new \App\notification();
+        $text="L'organisateur ".$organisateur->name." ".$organisateur->last_name." a crée un nouvel Event le ".$event->created_at;
+        $type="receive";
+        $notification->text=$text;
+        $notification->type=$type;
+        $notification->save();
 
-        return response()->json($event, 201);
+        $event->notifications()->save($notification);
+
+        foreach ($id_user as $id){
+            $user=User::find($id);
+           $user->notifications()->save($notification);
+        }
+        //notifier admin ausssi
+
+        $role= "admin";
+        $admin= User::with('role')
+            ->whereHas('role', function ($query) use($role)
+            {
+                $query->where('libelle', '=',$role);
+            })
+            ->get()->first();
+        $admin->notifications()->save($notification);
+
     }
     public function eventWithAllInfos($id,Request $request){
       dd(Event::find($id));
     }
+
 }

@@ -69,6 +69,7 @@ Route::delete('roles/{role}','RoleController@delete');
 Route::get('medias', 'MediaController@index');
 Route::get('tickets', 'TicketController@index');
 Route::get('roles', 'RoleController@index');
+Route::get('payments', 'PaymentController@index');
 
 
 Route::get('medias/{media}','MediaController@show');
@@ -120,6 +121,7 @@ Route::get('categories', 'CategoryController@index');
 Route::get('categories/{category}', 'CategoryController@show');
 //tags
 Route::get('tags', 'TagsController@index');
+Route::get('getNotificationsByUser/{userId}', 'NotificationController@getNotificationsByUser');
 
 
 //paymnet
@@ -129,3 +131,4 @@ Route::get('/paymentsByUserAndEvent/{user}/{event}','PaymentController@paymentsB
 
 
 Route::view('/api/{path?}', 'layout');
+

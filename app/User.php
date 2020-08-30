@@ -63,4 +63,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Payments');
     }
+
+    public function notifications()
+    {
+        return $this->belongsToMany('App\notification','user_notification')->withTimestamps();
+    }
 }

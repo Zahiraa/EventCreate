@@ -43,7 +43,7 @@ export default class IndexEvents extends React.Component {
             <div key={i} className="col-lg-3 col-sm-6">
                 <div className="team_item">
                     <div className="team_img">
-                        {event.media?
+                        {event.media && event.media.length>0?
 
 
                                 <Link to={"/EventDesc/"+event.id}><img key={i} className="img-fluid eventImg" src={event.media[0].url}/></Link>

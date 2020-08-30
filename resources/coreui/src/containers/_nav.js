@@ -103,10 +103,11 @@ export default userdata.test.user.role===1 ? [
     {
       _tag: 'CSidebarNavItem',
       name: 'Payments',
-      to: '/payments',
+      to: '/paymentListe',
       icon: 'cil-speedometer',
 
     },
+
 
  /* {
     _tag: 'CSidebarNavTitle',
@@ -404,7 +405,7 @@ export default userdata.test.user.role===1 ? [
     className: 'm-2'
   }*/
 ]:
-userdata.test.user.role===2 ?
+userdata.test.user.role!==1 ?
 [
   {
     _tag: 'CSidebarNavItem',
@@ -412,5 +413,26 @@ userdata.test.user.role===2 ?
     to: '/dashboard',
     icon: 'cil-speedometer',
 
-  }
+  },
+  {
+    _tag: 'CSidebarNavDropdown',
+    name: 'Events',
+    route: '/events',
+    icon: 'cil-puzzle',
+    _children: [
+
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'Add',
+        to: '/events/add',
+      }
+    ],
+  },
+  {
+    _tag: 'CSidebarNavItem',
+    name: 'Payments',
+    to: '/payments',
+    icon: 'cil-speedometer',
+
+  },
 ] : ''

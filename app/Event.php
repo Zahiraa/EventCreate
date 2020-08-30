@@ -40,4 +40,9 @@ class Event extends Model
     {
         return $this->hasMany('App\Payments');
     }
+
+    public function notifications()
+    {
+        return $this->hasMany('App\notification');
+    }
 }

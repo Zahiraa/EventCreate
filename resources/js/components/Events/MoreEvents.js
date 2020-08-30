@@ -42,6 +42,12 @@ export default class MoreEvents extends React.Component {
 
         })
     }
+
+
+    getPlacesDisp=( a, b) =>{
+        return parseInt(a)-parseInt(b);
+    }
+
     render() {
     let nextEvents=this.state.upcomming_events
     let archiveEvents=this.state.archived_events
@@ -67,7 +73,7 @@ export default class MoreEvents extends React.Component {
                 {this.state.events.map((event,i) => {
                     return (
                 <div className="col-md-6 col-lg-4 mb-5" data-aos="fade-up" data-aos-delay="100">
-                    {event.media?
+                    {event.media && event.media.length>0?
 
 
                         <Link to={"/EventDesc/"+event.id}><img key={i} className="img-fluid eventImg" src={event.media[0].url} style={{width:340,height:300}}/></Link>
@@ -83,6 +89,12 @@ export default class MoreEvents extends React.Component {
                         <p>
                             {event.description}
                         </p>
+                        {event.critere?
+                            <p className="text-muted text-center text-uppercase">
+                                Places disponibles : {this.getPlacesDisp(event.critere.limite_places,event.critere.places_reserves)}
+
+                            </p>
+                            :null}
                     </div>
                 </div>
                 )
@@ -100,7 +112,7 @@ export default class MoreEvents extends React.Component {
                 {nextEvents.length>0? nextEvents.map((event,i) => {
                     return (
                 <div className="col-md-6 col-lg-4 mb-5" data-aos="fade-up" data-aos-delay="100">
-                    {event.media?
+                    {event.media && event.media.length>0?
                         <Link to={"/EventDesc/"+event.id}><img key={i} className="img-fluid eventImg" src={event.media[0].url} style={{width:340,height:300}}/></Link>
                         :
                         <Link to={"/EventDesc/"+event.id}><img key={i} className="img-fluid eventImg" src={img} style={{width:340,height:300}}/></Link>
@@ -113,6 +125,8 @@ export default class MoreEvents extends React.Component {
                         <p>
                             {event.description}
                         </p>
+                        <hr/>
+
                     </div>
                 </div>
                         )}):<h4 className="alert alert-success commingsoon">Comming Soon ...</h4>}
