@@ -21,6 +21,8 @@ class AuthController extends Controller
      */
     public function register(Request $request)
     {
+        $data=$request->get('user');
+        $role_id=$data['role_id'] ? $data['role_id']:2;
         $request->validate([
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
@@ -32,7 +34,7 @@ class AuthController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => bcrypt($request->password),
-            'role_id' => $request->role_id,
+            'role_id' => $role_id
         ]);
 
         $user->save();
@@ -75,7 +77,7 @@ class AuthController extends Controller
         $user = $request->user();
         $tokenResult = $user->createToken('myevents');
         $token = $tokenResult->token;
-        
+
         if ($request->remember_me)
             $token->expires_at = Carbon::now()->addWeeks(1);
         $token->save();

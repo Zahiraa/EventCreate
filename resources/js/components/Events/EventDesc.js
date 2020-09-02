@@ -375,12 +375,14 @@ let id=this.props.match.params.id
                                          <Link to={"/Artist/"+artist.id}><img  className="img-fluid eventImg" src={event01} style={{width: 400}}/></Link>
                                      }
 
-                                     <div className="text">
-                                         <Link to={"/Artist/"+artist.id} className="infos-artists">
+
+
+                                     <div className="text" style={{width:'100%'}}>
+                                         {/*<Link to={"/Artist/"+artist.id} className="infos-artists">*/}
                                              <h2 className="mb-2 font-weight-light h4">{artist.name} {artist.last_name}</h2>
                                              <span className="d-block mb-2 text-white-opacity-05 text-uppercase">{artist.role.libelle}</span>
-                                             <p className="mb-4">{artist.biography}.</p>
-                                         </Link>
+                                             <p className="mb-4">{artist.biography}</p>
+                                         {/*</Link>*/}
                                      </div>
 
                                  </div>
