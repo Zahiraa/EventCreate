@@ -14,8 +14,9 @@ export default class User extends Component {
 
   componentDidMount=()=>{
     const id = this.props.match.params.id;
-    console.log(this.props);
-    axios.get(`api/user/${id}/show`).then(
+    console.log("test id");
+    console.log(id);
+    axios.get(`api/user/${id}/edit`).then(
         Response => {
             this.setState({
                 user: Response.data,
@@ -40,7 +41,7 @@ export default class User extends Component {
               <table className="table table-striped table-hover">
                 <tbody>
                   {
-                    userDetails !== null 
+                    userDetails != null 
                     ?
                     userDetails.map(([key, value], index) => (
                      

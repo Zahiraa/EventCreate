@@ -14,9 +14,10 @@ export default class User extends Component {
 
   componentDidMount=()=>{
     const userdata={test: JSON.parse(localStorage["appState"])}
-    const id = userdata.test.user.id;
-    console.log(id);
-    axios.get(`/api/user/${id}/show`).then(
+    const id = userdata.test.user.id
+    console.log('---tessssst---')
+    console.log(userdata)
+    axios.get(`/api/user/${id}/edit`).then(
         Response => {
             this.setState({
                 user: Response.data,
@@ -28,11 +29,14 @@ export default class User extends Component {
   }
 
   render() {
+    const userdata={test: JSON.parse(localStorage["appState"])}
     // const user = usersData.find( user => user.id.toString() === match.params.id)
     const userDetails = Object.entries(this.state.user)
       // [['id', (<span><CIcon className="text-muted" name="cui-icon-ban" /> Not found</span>)]]
   return (
 
+    userdata.test.isLoggedIn===true && userdata.user.role===2 ?
+    <>
     <CRow>
       <CCol lg={12}>
         <CCard>
@@ -61,6 +65,9 @@ export default class User extends Component {
         </CCard>
       </CCol>
     </CRow>
+    </>
+    :
+    window.location.href="/"
   )
 }
 }

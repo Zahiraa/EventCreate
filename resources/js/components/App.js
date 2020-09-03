@@ -37,8 +37,9 @@ import TicketType from "./Ticket/TicketType";
           )
         return (
 
-        <Router>
-          {/*<React.Suspense fallback={loading}>*/}
+        <Router basename="/">
+          <React.Suspense fallback={loading}>
+
                     <Switch>
                         <Route path="/"  component={Index}  exact={true}/>
                         <Route path="/MoreEvents" component={MoreEvents} exact={true} />
@@ -51,7 +52,7 @@ import TicketType from "./Ticket/TicketType";
                         <Route path="/Tickets/:event" component={Ticket} exact={true} />
                         <Route path="/Tickets/:event/:type" component={TicketType} exact={true} />
                     </Switch>
-          {/*</React.Suspense>*/}
+          </React.Suspense>
         </Router>
 
         );

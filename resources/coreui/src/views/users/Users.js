@@ -57,7 +57,11 @@ export default class Users extends Component {
 
   render() {
 
+    const userdata={test: JSON.parse(localStorage["appState"])}
+
   return (
+    userdata.test.isLoggedIn===true && userdata.user.role===1 || userdata.test.isLoggedIn===true && userdata.user.role===5 ?
+    <>
     <CRow>
       <CCol xl={12}>
         <CCard>
@@ -107,6 +111,9 @@ export default class Users extends Component {
         </CCard>
       </CCol>
     </CRow>
+    </>
+    :
+    window.location.href="/"
   )
   }
 }
