@@ -26,6 +26,7 @@ class RegisterContainer extends Component {
       error: '',
       errorMessage: '',
       formSubmitting: false,
+      isLoggedIn: '',
       user: {
         name: '',
         email: '',
@@ -73,7 +74,9 @@ class RegisterContainer extends Component {
         console.log(response)
         return response;
     }).then(json => {
-        if (json.data.success) {
+      console.log('json')
+      console.log(json.data)
+        if (json.data) {
           let userData = {
             id: json.data.id,
             name: json.data.name,
