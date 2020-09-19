@@ -19,11 +19,11 @@ class AuthController extends Controller
        ]);
        $user=User::create($validateData);
        $accessToken=$user->createToken('authToken')->accessToken;
-       return response(['user'=>$user,"token"=>$accessToken]);
+       return response(['id'=>$user->id,'name'=>$user->name,"email"=>$user->email,'role_id'=>$user->role_id,"activation_token"=>$accessToken]);
     }
 
     public function login(Request $request){
-        $success=false;
+
         $validateData= $request->validate([
 
             'email' => 'required|string|email',

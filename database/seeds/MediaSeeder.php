@@ -32,14 +32,14 @@ class MediaSeeder extends Seeder
                 'date_naissance'=>$faker->dateTimeThisCentury(),
                 'biography'=>$faker->text(200),
                 'email'=>$faker->email,
-                'password'=>sha1(1234),
+                'password'=>Hash::make("1234"),
                  'role_id'=>($i+1)
             ]);
         }
 //        4 artistes fixtures
         for($i=0;$i<5;$i++){
             DB::table('users')->insert([
-                'name'=>$faker->firstName,
+                'name'=>'ar'.$faker->firstName,
                 'last_name'=>$faker->lastName,
                 'facebook'=>'https://www.facebook.com',
                 'instagram'=>'https://www.instagram.com',

@@ -59,6 +59,7 @@ class LoginContainer extends Component {
     axios.post(url+"/login", userData).then(response => {
       return response;
     }).then(json => {
+      console.log(json)
       if (json.data.success) {
         console.log('json.data.success')
         console.log(json.data)
@@ -81,7 +82,15 @@ class LoginContainer extends Component {
           error: ''
         });
         let ur="";
-        this.state.user.role===1 || this.state.user.role===5 ? ur="/dashboard" : this.state.user.role===2 ? ur="dashboard#/user/"+this.state.user.id : ur="/";
+        // this.state.user.role===1 || this.state.user.role===5 ? ur="/dashboard" : this.state.user.role===2 ? ur="dashboard#/user/"+this.state.user.id : ur="/";
+        var role=this.state.user.role
+        var idUser=this.state.user.id
+        if(role===1){
+          ur="/dashboard"
+        }
+        else{
+          ur="dashboard#/user/"+idUser
+        }
         console.log(ur);
        this.props.history.push(ur);
        location.reload();

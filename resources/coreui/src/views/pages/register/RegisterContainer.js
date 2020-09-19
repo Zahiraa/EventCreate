@@ -94,7 +94,10 @@ class RegisterContainer extends Component {
             isRegistered: appState.isRegistered,
             user: appState.user
           });
-          this.props.history.push('/dashboard#/dashboard');
+          let ur='/dashboard#/dashboard'
+          this.props.history.push(ur);
+        //  location.reload();
+        //  this.props.history.push('/dashboard#/dashboard');
         } else {
             alert(`Our System Failed To Register Your Account!`);
         }
