@@ -6,6 +6,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Passport\HasApiTokens;
 
 class AuthController extends Controller
 {
@@ -23,7 +24,7 @@ class AuthController extends Controller
     {
         $data=$request->get('user');
         $role_id=$data['role_id'] ? $data['role_id']:2;
-        $request->validate([
+        $validateData=$request->validate([
             'name' => 'required|string',
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|confirmed',
@@ -31,13 +32,14 @@ class AuthController extends Controller
         ]);
 
         $user = new User([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
+            'name' => $validateData["name"],
+            'email' => $validateData["email"],
+            'password' => bcrypt($validateData['password']),
             'role_id' => $role_id
         ]);
 
         $user->save();
+        $accessToken=$user->createToken('authToken')->accessToken;
 
         return response()->json([
             'success' => true,
@@ -45,6 +47,7 @@ class AuthController extends Controller
             'name' => $user->name,
             'email' => $user->email,
             'role_id' => $user->role_id,
+            'accessToken'=>$accessToken
         ], 201);
     }
 
@@ -61,6 +64,7 @@ class AuthController extends Controller
      */
     public function login(Request $request)
     {
+
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
@@ -69,12 +73,21 @@ class AuthController extends Controller
 
         $credentials = request(['email', 'password']);
 
-        if (!Auth::attempt($credentials))
-            return response()->json([
-                'message' => 'Unauthorized Access, please confirm credentials or verify your email'
-            ], 401);
+//        if (!Auth::check($credentials))
+//            return response()->json([
+//                'message' => 'Unauthorized Access, please confirm credentials or verify your email'
+//            ], 401);
 
+
+        if(Auth::guard('api')->attempt(['email' => $request->input('email'), 'password' => $request->input('password')], false)) {
+
+            dd('yes');
+  } else {
+            dd('no');
+
+    }
         $user = $request->user();
+        dd($user);
         $tokenResult = $user->createToken('myevents');
         $token = $tokenResult->token;
 

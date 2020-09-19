@@ -19,134 +19,137 @@ import CIcon from '@coreui/icons-react'
 
 class LoginContainer extends Component {
 
-    constructor(props) {
-        super(props);
-        this.state = {
-          isLoggedIn: false,
-          error: '',
-          formSubmitting: false,
-          role: '',
-          user: {
-            email: '',
-            password: '',
-          },
-          redirect: props.redirect,
+  constructor(props) {
+    super(props);
+    this.state = {
+      isLoggedIn: false,
+      error: '',
+      formSubmitting: false,
+      role: '',
+      user: {
+        email: '',
+        password: '',
+      },
+      redirect: props.redirect,
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleEmail = this.handleEmail.bind(this);
+    this.handlePassword = this.handlePassword.bind(this);
+  }
+  componentWillMount() {
+    let state = localStorage["appState"];
+    if (state) {
+      let AppState = JSON.parse(state);
+      this.setState({isLoggedIn: AppState.isLoggedIn, user: AppState});
+    }
+  }
+  componentDidMount() {
+    const { prevLocation } = this.state.redirect.state || { prevLocation: { pathname: '/dashboard' } };
+    if (prevLocation && this.state.isLoggedIn) {
+      this.props.history.push(prevLocation);
+      location.reload();
+    }
+
+  }
+  handleSubmit(e) {
+    e.preventDefault();
+    this.setState({formSubmitting: true});
+    let userData = this.state.user;
+    const url=process.env.MIX_REACT_APP_ROOT
+    axios.post(url+"/login", userData).then(response => {
+      return response;
+    }).then(json => {
+      if (json.data.success) {
+        console.log('json.data.success')
+        console.log(json.data)
+        let userData = {
+          id: json.data.id,
+          name: json.data.name,
+          email: json.data.email,
+          role: json.data.role_id,
+          access_token: json.data.access_token,
         };
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleEmail = this.handleEmail.bind(this);
-        this.handlePassword = this.handlePassword.bind(this);
-      }
-      componentWillMount() {
-        let state = localStorage["appState"];
-        if (state) {
-          let AppState = JSON.parse(state);
-          this.setState({isLoggedIn: AppState.isLoggedIn, user: AppState});
-        }
-      }
-      componentDidMount() {
-        const { prevLocation } = this.state.redirect.state || { prevLocation: { pathname: '/dashboard' } };
-        if (prevLocation && this.state.isLoggedIn) {
-          this.props.history.push(prevLocation);
-          location.reload();
-        }
+        let appState = {
+          isLoggedIn: true,
+          user: userData
+        };
 
+        localStorage["appState"] = JSON.stringify(appState);
+        this.setState({
+          isLoggedIn: appState.isLoggedIn,
+          user: appState.user,
+          error: ''
+        });
+        let ur="";
+        this.state.user.role===1 || this.state.user.role===5 ? ur="/dashboard" : this.state.user.role===2 ? ur="dashboard#/user/"+this.state.user.id : ur="/";
+        console.log(ur);
+       this.props.history.push(ur);
+       location.reload();
       }
-      handleSubmit(e) {
-        e.preventDefault();
-        this.setState({formSubmitting: true});
-        let userData = this.state.user;
-        const url=process.env.MIX_REACT_APP_ROOT
-        axios.post(url+"/auth/login", userData).then(response => {
-          return response;
-        }).then(json => {
-             if (json.data.success) {
-               let userData = {
-                 id: json.data.id,
-                 name: json.data.name,
-                 email: json.data.email,
-                 role: json.data.role_id,
-                 access_token: json.data.access_token,
-               };
-               let appState = {
-                 isLoggedIn: true,
-                 user: userData
-               };
-               localStorage["appState"] = JSON.stringify(appState);
-               this.setState({
-                  isLoggedIn: appState.isLoggedIn,
-                  user: appState.user,
-                  error: ''
-               });
-               let ur="";
-               this.state.user.role===1 || this.state.user.role===5 ? ur="/dashboard" : this.state.user.role===2 ? ur="dashboard#/user/"+this.state.user.id : ur="/";
-               console.log(ur);
-               this.props.history.push(ur);
-               location.reload();
-             }
-             else {
-                alert(`Our System Failed To Register Your Account!`);
-             }
-        }).catch(error => {if (error.response) {
-            // The request was made and the server responded with a status code that falls out of the range of 2xx
-            let err = error.response.data;
-            this.setState({
-              error: err.message,
-              errorMessage: err.errors,
-              formSubmitting: false
-            })
-          }
-          else if (error.request) {
-            // The request was made but no response was received `error.request` is an instance of XMLHttpRequest in the browser and an instance of http.ClientRequest in node.js
-            let err = error.request;
-            this.setState({
-              error: err,
-              formSubmitting: false
-            })
-         } else {
-           // Something happened in setting up the request that triggered an Error
-           let err = error.message;
-           this.setState({
-             error: err,
-             formSubmitting: false
-           })
-       }
-     }).finally(this.setState({error: ''}));
+      else {
+        alert(`Our System Failed To Register Your Account!`);
+      }
+    }).catch(error => {if (error.response) {
+      // The request was made and the server responded with a status code that falls out of the range of 2xx
+      let err = error.response.data;
+      this.setState({
+        error: err.message,
+        errorMessage: err.errors,
+        formSubmitting: false
+      })
     }
+    else if (error.request) {
+      // The request was made but no response was received `error.request` is an instance of XMLHttpRequest in the browser and an instance of http.ClientRequest in node.js
+      let err = error.request;
+      this.setState({
+        error: err,
+        formSubmitting: false
+      })
+    } else {
+      // Something happened in setting up the request that triggered an Error
+      let err = error.message;
+      this.setState({
+        error: err,
+        formSubmitting: false
+      })
+    }
+    }).finally(this.setState({error: ''}));
+  }
 
-    handleEmail(e) {
-      let value = e.target.value;
-      this.setState(prevState => ({
-        user: {
-          ...prevState.user, email: value
-        }
-      }));
-    }
-    handlePassword(e) {
-      let value = e.target.value;
-      this.setState(prevState => ({
-        user: {
-          ...prevState.user, password: value
-        }
-      }));
-    }
+  handleEmail(e) {
+    let value = e.target.value;
+    this.setState(prevState => ({
+      user: {
+        ...prevState.user, email: value
+      }
+    }));
+  }
+  handlePassword(e) {
+    let value = e.target.value;
+    this.setState(prevState => ({
+      user: {
+        ...prevState.user, password: value
+      }
+    }));
+  }
 
   render() {
 
     return (
-        <div>
-          <section className="banner_area">
-            <div className="banner_inner d-flex align-items-center">
-              <div className="overlay bg-parallax" data-stellar-ratio="0.9" data-stellar-vertical-offset="0" data-background=""></div>
-              <div className="container">
-                  <div className="banner_content text-center">
-                    <div className="page_link">
-                      <a href="/">Home</a>
-                      <a href="#">Login</a>
-                    </div>
-                    <h2>Login page</h2>
-                  </div>
+      <div>
+        <section className="banner_area">
+          <div className="banner_inner d-flex align-items-center">
+            <div className="overlay bg-parallax" data-stellar-ratio="0.9" data-stellar-vertical-offset="0" data-background=""></div>
+            <div className="container">
+              <div className="banner_content text-center">
+                <div className="page_link">
+                  <a href="/">Home</a>
+                  <a href="#">Login</a>
+                </div>
+                <h2>Login page</h2>
               </div>
             </div>
+          </div>
         </section>
         <div className="c-app c-default-layout flex-row align-items-center mt-5 mb-5">
           <CContainer>
@@ -165,8 +168,8 @@ class LoginContainer extends Component {
                             </CInputGroupText>
                           </CInputGroupPrepend>
                           <CInput type="email" name="email" placeholder="email" autoComplete="email"
-                          required
-                          onChange={this.handleEmail}
+                                  required
+                                  onChange={this.handleEmail}
                           />
                         </CInputGroup>
                         <CInputGroup className="mb-4">
@@ -176,8 +179,8 @@ class LoginContainer extends Component {
                             </CInputGroupText>
                           </CInputGroupPrepend>
                           <CInput type="password" name="password" placeholder="Password" autoComplete="current-password"
-                          required
-                          onChange={this.handlePassword}
+                                  required
+                                  onChange={this.handlePassword}
                           />
                         </CInputGroup>
                         <CRow>
@@ -208,9 +211,9 @@ class LoginContainer extends Component {
             </CRow>
           </CContainer>
         </div>
-        </div>
-      )
+      </div>
+    )
   }
- }
+}
 
 export default withRouter(LoginContainer)

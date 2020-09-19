@@ -68,7 +68,7 @@ class RegisterContainer extends Component {
     ReactDOM.findDOMNode(this).scrollIntoView();
     let userData = this.state.user;
     console.log(userData);
-    axios.post("/api/auth/register", userData)
+    axios.post("/api/register", userData)
       .then(response => {
         console.log('response')
         console.log(response)
@@ -88,6 +88,7 @@ class RegisterContainer extends Component {
             isRegistered: true,
             user: userData
           };
+
           localStorage["appState"] = JSON.stringify(appState);
           this.setState({
             isRegistered: appState.isRegistered,

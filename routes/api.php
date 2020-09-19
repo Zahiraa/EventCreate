@@ -82,13 +82,14 @@ Route::get('findTicket/{name}','TicketController@findTicket');
 Route::post('medias', 'MediaController@store');
 
 Route::put('medias/{media}', 'MediaController@update');
-
+Route::post('register', 'Api\AuthController@register');
+Route::post('login', 'Api\AuthController@login');
 
 Route::group([
     'prefix' => 'auth'
 ], function () {
-    Route::post('login', 'AuthController@login');
-    Route::post('register', 'AuthController@register');
+//    Route::post('login', 'AuthController@login');
+//    Route::post('register', 'AuthController@register');
     Route::get('logout', 'AuthController@logout');
 
     Route::group([
