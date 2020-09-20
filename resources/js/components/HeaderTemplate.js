@@ -30,7 +30,12 @@ export default class HeaderTemplate extends React.Component {
             this.setState({isLoggedIn:AppState.isLoggedIn, user: AppState.user});
         }
     }
+    redirect=(myurl)=>{
 
+        // return  <Redirect to="/dashboard#/events/add" />;
+        window.location.href=myurl
+
+    }
     render() {
         const myurl=`/dashboard#/user/${this.state.user.id}`;
         return (
@@ -83,9 +88,9 @@ export default class HeaderTemplate extends React.Component {
 
                                         {this.state.isLoggedIn ?
                                         <>
-                                        
+
                                         {console.log(this.state.isLoggedIn)}
-                                        <li className="nav-item"><Link to={myurl} className="tickets_btn">{this.state.user.name}</Link></li>
+                                        <li className="nav-item"><Link to={myurl} className="tickets_btn" onClick={() => this.redirect(myurl)}>{this.state.user.name}</Link></li>
                                         </>
                                         :
                                         <>

@@ -7,7 +7,8 @@ import { Redirect } from 'react-router';
 export default class WelcomeMessage extends Component {
     redirect=()=>{
 
-            return  <Redirect to="/dashboard#/events/add" />;
+            // return  <Redirect to="/dashboard#/events/add" />;
+             window.location.href="/dashboard#/events/add"
 
     }
     render() {
