@@ -9,6 +9,7 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import Axios from "axios";
+import {Link} from "react-router-dom";
 
 
 export default class TheHeaderDropdownNotif extends Component {
@@ -21,7 +22,12 @@ export default class TheHeaderDropdownNotif extends Component {
     }
 
   }
+  redirect=(eventId)=>{
 
+    // return  <Redirect to="/dashboard#/events/add" />;
+    window.location.href="/EventDesc/"+eventId
+
+  }
   componentDidMount=()=>{
     const url=process.env.MIX_REACT_APP_ROOT
     if (localStorage.getItem('appState')!= null) {
@@ -42,6 +48,7 @@ export default class TheHeaderDropdownNotif extends Component {
 
   render() {
   let notifications=this.state.notifications
+
     return(
 
       <CDropdown
@@ -64,7 +71,7 @@ export default class TheHeaderDropdownNotif extends Component {
           {notifications.map((notification,i) => {
             return (
 
-                <CDropdownItem><CIcon name="cil-user-follow" className="mr-2 text-success" /> {notification.text}</CDropdownItem>
+                <CDropdownItem onClick={() => this.redirect(notification.event_id)}><CIcon name="cil-user-follow" className="mr-2 text-success" /> {notification.text}</CDropdownItem>
 
 
 
