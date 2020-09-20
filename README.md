@@ -7,3 +7,5 @@ git clone https://github.com/Zahiraa/EventCreate.git
 - npm install 
 - npm run watch
 - php artisan migrate:fresh --seed
+- composer require laravel/passport
+- php artisan passport:install
