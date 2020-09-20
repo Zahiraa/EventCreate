@@ -16,10 +16,10 @@ class User extends Authenticatable
      *
      * @var array
      */
-//    protected $guarded = [];
-    protected $fillable = [
-        'name', 'email', 'password','role_id',
-    ];
+    protected $guarded = [];
+//    protected $fillable = [
+//        'name', 'email', 'password','role_id',
+//    ];
     public function setPasswordAttribute($password)
     {
         return $this->attributes['password'] = bcrypt($password);

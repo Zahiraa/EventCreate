@@ -39,7 +39,7 @@ class PaymentController extends Controller
     public function paymentsByUser($user){
 
         $data = DB::table("events")
-            ->select("payments.status as status","payments.created_at as datePayment","events.title as event","events.date as dateEvent","tickets.price as price","users.name as name")
+            ->select("payments.status as status","payments.created_at as datePayment","events.title as event","events.date as dateEvent","tickets.price as price","tickets.name as ticket","users.name as name")
             ->join('payments','payments.event_id','events.id')
             ->join('tickets','payments.ticket_id','tickets.id')
             ->join('users','payments.user_id','users.id')

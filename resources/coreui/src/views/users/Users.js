@@ -60,7 +60,7 @@ export default class Users extends Component {
     const userdata={test: JSON.parse(localStorage["appState"])}
 
   return (
-    userdata.test.isLoggedIn===true && userdata.user.role===1 || userdata.test.isLoggedIn===true && userdata.user.role===5 ?
+    userdata.test.isLoggedIn===true && userdata.test.user.role===1 || userdata.test.isLoggedIn===true && userdata.test.user.role===5 ?
     <>
     <CRow>
       <CCol xl={12}>
@@ -75,7 +75,7 @@ export default class Users extends Component {
             fields={[
               { key: 'name', _classes: 'font-weight-normal' },
               { key: 'last_name', _classes: 'font-weight-normal text-uppercase' },
-              { key: 'role', _classes: 'font-weight-bold text-uppercase' },
+              { key: 'role', _classes: 'font-weight-bold text-uppercase ' },
               { key: 'email', _classes: 'font-weight-normal' }, 'actions'
 
 

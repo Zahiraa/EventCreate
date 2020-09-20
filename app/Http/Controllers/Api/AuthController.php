@@ -18,6 +18,12 @@ class AuthController extends Controller
           // 'remember_me' => 'boolean'
        ]);
        $user=User::create($validateData);
+//       $user->role_id=$request->input('user')['role_id'];
+       $user->update(
+           [
+               'role_id'=>$request->input('role_id')]);
+
+dump($user,$request);
        $accessToken=$user->createToken('authToken')->accessToken;
        return response(['id'=>$user->id,'name'=>$user->name,"email"=>$user->email,'role_id'=>$user->role_id,"activation_token"=>$accessToken]);
     }

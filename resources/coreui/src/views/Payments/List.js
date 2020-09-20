@@ -27,11 +27,15 @@ export default class List extends Component
         const url=process.env.MIX_REACT_APP_ROOT
         const userdata={test: JSON.parse(localStorage["appState"])}
         const id = userdata.test.user.id;
+        console.log("id")
+        console.log(id)
         Axios.get(url+'/payments/'+id).then(
             Response => {
+              console.log('Response');
+              console.log(Response);
                 this.setState(
                     {
-                        payments: Response.payments
+                        payments: Response.data.payments
                     }
                 )
                 console.log(this.state.events);

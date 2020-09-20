@@ -78,10 +78,25 @@ class UserController extends Controller
         return  ['events'=>$events,"media"=>compact(array('media'))];
 
     }
+    public function indexPayment($id)
+    {
+       $user=User::with('role')->with('media')->with('payments','events')->where('id', '=',$id)->get()->first();
+        return ['payments'=>$user->payments->count()];
 
+    }
     public function edit($id){
-        $user=User::find($id);
-        return response()->json($user, 200);
+//        $user=User::find($id);
+//        return response()->json($user, 200);
+
+            $data = DB::table("roles")
+                ->select("users.id","users.name","users.last_name as last name","roles.libelle as role","users.email","users.facebook","users.instagram","users.biography","users.city","users.date_naissance as date de naissance","users.created_at")
+                ->join('users', 'users.role_id', '=', 'roles.id')
+                ->where('users.id',"=",$id)
+                ->get()->first();
+
+            return response()->json($data, 201);
+
+
     }
 
     public function update(Request $request, User $user,$id)
@@ -89,7 +104,7 @@ class UserController extends Controller
 
         $user=$user::find($id);
        if($user->update($request->all())){
-            // dd($user);die;
+
             return response()->json($user,201);
         }
     }

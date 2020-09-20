@@ -102,6 +102,7 @@ Route::group([
  });
 Route::get('users/liste','UserController@liste');
 Route::get('user/{id}/show','UserController@show');
+Route::get('user/{id}/indexPayment','UserController@indexPayment');
 Route::get('user/{id}/edit','UserController@edit');
 Route::put('user/{id}/update','UserController@update');
 Route::delete('user/{id}/delete','UserController@delete');

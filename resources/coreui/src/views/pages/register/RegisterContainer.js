@@ -7,15 +7,16 @@ import {
   CCardFooter,
   CCol,
   CContainer,
-  CForm,
+  CForm, CFormGroup,
   CInput,
   CInputGroup,
   CInputGroupPrepend,
   CInputGroupText,
-  CRow
+  CRow, CSelect
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import {Link, withRouter} from 'react-router-dom';
+import {getResults} from "../../../../../js/services";
 
 class RegisterContainer extends Component {
 
@@ -27,12 +28,14 @@ class RegisterContainer extends Component {
       errorMessage: '',
       formSubmitting: false,
       isLoggedIn: '',
+      roles: '',
+      selectedRole: '',
       user: {
         name: '',
         email: '',
         password: '',
         password_confirmation: '',
-        role_id: '2',
+        role_id: '',
     },
     redirect: props.redirect,
     };
@@ -60,6 +63,12 @@ class RegisterContainer extends Component {
     if (prevLocation && this.state.isLoggedIn) {
       return this.props.history.push(prevLocation);
     }
+    const url=process.env.MIX_REACT_APP_ROOT
+    getResults(url+'/roles',data=>{
+      this.setState({
+        roles:data.roles,
+      })
+  })
   }
 
   handleSubmit(e) {
@@ -67,6 +76,7 @@ class RegisterContainer extends Component {
     this.setState({formSubmitting: true});
     ReactDOM.findDOMNode(this).scrollIntoView();
     let userData = this.state.user;
+    console.log("userData")
     console.log(userData);
     axios.post("/api/register", userData)
       .then(response => {
@@ -82,7 +92,8 @@ class RegisterContainer extends Component {
             name: json.data.name,
             email: json.data.email,
             activation_token: json.data.activation_token,
-            role_id: 2,
+            // role_id: this.state.selectedRole,
+            role_id: json.data.role_id,
           };
           let appState = {
             isRegistered: true,
@@ -161,7 +172,18 @@ class RegisterContainer extends Component {
       }
     }));
   }
+  inputChange  = e => {
+  // this.setState({
+  //   selectedRole: e.target.value
+  // });
+    let value = e.target.value;
+    this.setState(prevState => ({
+      user: {
+        ...prevState.user, role_id: value
+      }
+    }));
 
+}
   render() {
 console.log('rrrr')
 console.log(this.state)
@@ -246,6 +268,22 @@ console.log(this.state)
                       required
                       onChange={this.handleUserRole}
                       /> */}
+                    </CInputGroup>
+                    <CInputGroup className="mb-4">
+                      <CInputGroupText>
+                        <CIcon name="cil-lock-locked" />
+                      </CInputGroupText>
+                      <CInputGroupPrepend>
+                      <CSelect onChange={this.inputChange}  name="selectedRole" >
+                        <option>--- roles ---</option>
+                        { this.state.roles ?this.state.roles.map((role,i) => {
+                          return (
+                            <option value={role.id}>{role.libelle}</option>
+                          )}):null}
+
+                      </CSelect>
+
+                      </CInputGroupPrepend>
                     </CInputGroup>
                     <CButton type="submit" color="success" block >Create Account</CButton>
                   </CForm>

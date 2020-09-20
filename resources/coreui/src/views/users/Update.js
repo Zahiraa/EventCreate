@@ -41,7 +41,13 @@ export default class Update extends Component
         super(props);
         this.state={
             name: '',
+          last_name: '',
+            facebook: '',
+            instagram: '',
+            biography: '',
             email: '',
+            date_naissance: '',
+            city: '',
             password: '',
             role_id: '',
              roles: '',
@@ -77,13 +83,38 @@ export default class Update extends Component
            role_id: event.target.value
         });
       }
-      componentDidMount=()=>{
-        const id = this.props.match.params.id;
+      // componentWillMount() {
+      //   const data={test: JSON.parse(localStorage["appState"])}
+      //   const id=this.props.match.params.id;
+      //   let currentUser=(data.test.user)
+      //   if(currentUser.id!==id){
+      //     this.props.history.push('/user/'+currentUser.id)
+      //   }
+      // }
+
+  componentDidMount=()=>{
+    const id=this.props.match.params.id;
+    const data={test: JSON.parse(localStorage["appState"])}
+
+      let currentUser=(data.test.user)
+    console.log(currentUser.id!=id)
+    console.log(currentUser.id)
+    console.log(id)
+      if(currentUser.id!=id && currentUser.role!=1){
+        this.props.history.push('/user/'+currentUser.id)
+      }
+      else{
         axios.get(`/api/user/${id}/edit`).then(
             Response => {
                 this.setState({
                     name: Response.data.name,
+                    last_name: Response.data.last_name,
                     email: Response.data.email,
+                    facebook: Response.data.facebook,
+                    instagram: Response.data.instagram,
+                    biography: Response.data.biography,
+                    city: Response.data.city,
+                    date_naissance: Response.data.date_naissance,
                     // password: Response.data.password,
                     role_id: Response.data.role_id,
                     activation_token: Response.data.activation_token
@@ -99,18 +130,38 @@ export default class Update extends Component
           }
         ).catch(err => console.log(err));
     }
+    }
 
+    handleData = input => e => {
+      this.setState({
+        [input]:e.target.value
+      })
+
+  }
     handlesubmitform=(event)=>{
+
         event.preventDefault();
+        console.log("submit")
+        console.log(this.state)
         this.setState({ showMessage: false });
         // const userdata={name: this.state.name, email: this.state.email, password: this.state.password, role_id: this.state.role_id,}
-        const userdata={name: this.state.name, email: this.state.email, role_id: this.state.role_id,}
-        const id=this.props.match.params.id;
+        const userdata={name: this.state.name,last_name: this.state.last_name, email: this.state.email, role_id: this.state.role_id,facebook:this.state.facebook,instagram:this.state.instagram,biography:this.state.biography,city:this.state.city,date_naissance:this.state.date_naissance}
+        console.log('rrr')
+        console.log(userdata)
+      const id=this.props.match.params.id;
         axios.put(`/api/user/${id}/update`,userdata)
         .then((response) => {
             console.log(response)
+          const data={test: JSON.parse(localStorage["appState"])}
+          let currentUser=(data.test.user)
             this.setState({ showMessage: true })
+          if(currentUser.role!==1){
+            this.props.history.push('/user/'+id)
+          }
+          else{
             this.props.history.push('/users')
+          }
+
         }).catch(err => console.log(err));
     }
     render() {
@@ -118,8 +169,11 @@ export default class Update extends Component
         // const { selectedOption } = this.state;
         // const value = selectedOption && selectedOption.value;
         const userdata={test: JSON.parse(localStorage["appState"])}
+        let currentUser=(userdata.test.user)
+      console.log('currentUser')
+      console.log(currentUser)
         return(
-            userdata.test.isLoggedIn===true && userdata.user.role===1 || userdata.test.isLoggedIn===true && userdata.user.role===5 ?
+          //  userdata.test.isLoggedIn===true && userdata.user.role===1 || userdata.test.isLoggedIn===true && userdata.user.role===5 ?
             <>
         <CRow>
             <CCol xs="12" sm="12">
@@ -153,6 +207,17 @@ export default class Update extends Component
                             </CRow>
                             <CRow>
                                 <CCol xs="8">
+                                <CFormGroup>
+                                    <CLabel htmlFor="last_name">Last Name</CLabel>
+                                    <CInput type="text" id="last_name" placeholder="Last Name"
+                                    onChange={this.handleData('last_name')}
+                                    value={this.state.last_name}
+                                     />
+                                </CFormGroup>
+                                </CCol>
+                            </CRow>
+                            <CRow>
+                                <CCol xs="8">
                                     <CFormGroup>
                                         <CLabel htmlFor="email">email</CLabel>
                                         <CInput type="email" id="email" placeholder="email"
@@ -164,26 +229,88 @@ export default class Update extends Component
                                 </CCol>
                             </CRow>
                             <CRow>
+                              <CCol xs="8">
+                                <CFormGroup>
+                                  <CLabel htmlFor="city">city</CLabel>
+                                  <CInput type="text" id="city" placeholder="city"
+
+                                          onChange={this.handleData('city')}
+                                          value={this.state.city}
+                                  />
+                                </CFormGroup>
+                              </CCol>
+                            </CRow>
+
+                            <CRow>
+                              <CCol xs="8">
+                                <CFormGroup>
+                                  <CLabel htmlFor="date_naissance">date de naissance</CLabel>
+                                  <CInput type="date" id="date_naissance" placeholder="date de naissance"
+                                          onChange={this.handleData('date_naissance')}
+                                          value={this.state.date_naissance}
+                                  />
+                                </CFormGroup>
+                              </CCol>
+                            </CRow>
+                      <CRow>
+                        <CCol xs="8">
+                          <CFormGroup>
+                            <CLabel htmlFor="facebook">facebook</CLabel>
+                            <CInput type="text" id="facebook" placeholder="www.facebook.com"
+
+                                    onChange={this.handleData('facebook')}
+                                    value={this.state.facebook}
+                            />
+                          </CFormGroup>
+                        </CCol>
+                        <CCol xs="8">
+                          <CFormGroup>
+                            <CLabel htmlFor="instagram">instagram</CLabel>
+                            <CInput type="text" id="instagram" placeholder="www.instagram.com"
+
+                                    onChange={this.handleData('instagram')}
+                                    value={this.state.instagram}
+                            />
+                          </CFormGroup>
+                        </CCol>
+
+                        <CCol xs="8">
+                          <CFormGroup>
+                            <CLabel htmlFor="biography">biography</CLabel>
+                            <CTextarea type="text" id="biography" placeholder="biography"
+
+                                    onChange={this.handleData('biography')}
+                                    value={this.state.biography}
+                            />
+                          </CFormGroup>
+                        </CCol>
+                      </CRow>
+                            <CRow>
+                              {currentUser.role == 1 ?
                                 <CCol xs="8">
                                     <CFormGroup>
                                         <CLabel htmlFor="role">role</CLabel>
+
                                         <CSelect
-                                            onChange={this.handleSelectChange}
-                                            value={this.state.role_id}
+                                          onChange={this.handleSelectChange}
+                                          value={this.state.role_id}
                                         >
-                                          {this.state.roles &&this.state.roles.length>0?this.state.roles.map((role)=>{
-                                              return(
+                                          {this.state.roles && this.state.roles.length > 0 ? this.state.roles.map((role) => {
+                                              return (
 
                                                 <option value={role.id}>{role.libelle}</option>
 
-                                              )})
+                                              )
+                                            })
 
-                                            :null
+                                            : null
                                           }
 
                                         </CSelect>
                                     </CFormGroup>
                                 </CCol>
+                                :""
+                              }
                             </CRow>
                             <CRow>
                                 <CCol xs="8">
@@ -206,8 +333,8 @@ export default class Update extends Component
             </CCol>
           </CRow>
           </>
-          : 
-          window.location.href="/"
+          // :
+          // window.location.href="/"
         );
     }
 }

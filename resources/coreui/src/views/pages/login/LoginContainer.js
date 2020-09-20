@@ -56,6 +56,8 @@ class LoginContainer extends Component {
     this.setState({formSubmitting: true});
     let userData = this.state.user;
     const url=process.env.MIX_REACT_APP_ROOT
+    console.log('userData')
+    console.log(userData)
     axios.post(url+"/login", userData).then(response => {
       return response;
     }).then(json => {
