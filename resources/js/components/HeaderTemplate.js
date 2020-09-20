@@ -95,7 +95,7 @@ export default class HeaderTemplate extends React.Component {
                                         :
                                         <>
                                         {console.log(this.state.isLoggedIn)}
-                                        <li className="nav-item"><span className="tickets_btn"><Link to="/login">LOGIN</Link>/<Link to="/register">REGISTER</Link></span></li>
+                                        <li className="nav-item"><span className="tickets_btn"><Link to="/login" className="mr-3">LOGIN</Link>&nbsp;/&nbsp;<Link className="ml-3" to="/register">REGISTER</Link></span></li>
                                         <li className="nav-item"><a href="#" className="search"><i className="lnr lnr-magnifier"/></a></li>
                                         </>
                                         }

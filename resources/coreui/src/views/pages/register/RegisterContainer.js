@@ -269,17 +269,19 @@ console.log(this.state)
                       onChange={this.handleUserRole}
                       /> */}
                     </CInputGroup>
-                    <CInputGroup className="mb-4">
+                    <CInputGroup className="mb-6">
                       <CInputGroupText>
                         <CIcon name="cil-lock-locked" />
                       </CInputGroupText>
-                      <CInputGroupPrepend>
+                      <CInputGroupPrepend style={{width:"90%"}}>
                       <CSelect onChange={this.inputChange}  name="selectedRole" >
-                        <option>--- roles ---</option>
+                        <option style={{textTransform:"uppercase"}}>--- roles ---</option>
                         { this.state.roles ?this.state.roles.map((role,i) => {
-                          return (
-                            <option value={role.id}>{role.libelle}</option>
-                          )}):null}
+
+                          return  role.libelle!=="admin" && role.libelle!=="super_admin"?(
+                            <option style={{borderBottom:'1px solid grey'}} className='text-uppercase' value={role.id}>{role.libelle}</option>
+
+                          ):null}):null}
 
                       </CSelect>
 

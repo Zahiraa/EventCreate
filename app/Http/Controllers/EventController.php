@@ -261,10 +261,12 @@ class EventController extends Controller
         $cat=$event->categories->get(0)->libelle;
 
         $events = Event::with('categories')->with('media')
+
             ->whereHas('categories', function ($query) use($cat)
         {
             $query->where('libelle', '=', $cat);
         })
+            ->where("events.id","!=",$eventId->id)
             ->get();
         return ["events"=>$events];
     }
@@ -336,6 +338,7 @@ class EventController extends Controller
     }
 
     public function  stepsCreateEvent(Request $request){
+
 
        $data=$request->input('data');
 

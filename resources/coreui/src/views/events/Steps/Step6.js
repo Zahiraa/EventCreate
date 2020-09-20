@@ -103,7 +103,9 @@ export default class Step6 extends Component
     console.log('finnnnnnnn')
     console.log(this.props)
     if(this.state.redirect) {
-      return  <Redirect to="/events/liste" />;
+      // return  <Redirect to="/events/liste" />;
+
+      window.location.href="/MoreEvents/"
     }
     const { values, inputChange } = this.props;
 

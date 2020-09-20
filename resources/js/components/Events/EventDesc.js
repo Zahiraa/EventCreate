@@ -78,6 +78,8 @@ export default class EventDesc extends React.Component {
 
 
         let recommended=this.state.recommended_events
+        console.log( 'recommended')
+        console.log( recommended)
         let pics=[event01,event02,event03,event04]
         let medias=[];
 
@@ -394,7 +396,7 @@ let id=this.props.match.params.id
                  </div>
              </div>
          </div>
-
+         {recommended.length>0?
     <div className="site-section bg-light">
         <div className="container">
             <div className="row">
@@ -427,6 +429,7 @@ let id=this.props.match.params.id
             </div>
         </div>
     </div>
+             :""}
 
          <CommentForm event={event}/>
 
