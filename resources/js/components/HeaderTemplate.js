@@ -100,7 +100,7 @@ export default class HeaderTemplate extends React.Component {
                                         </>
                                         }
 
-                                    </ul>event
+                                    </ul>
                                 </div>
                             </div>
                         </nav>
