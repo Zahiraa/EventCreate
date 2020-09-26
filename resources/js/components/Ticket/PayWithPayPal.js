@@ -44,12 +44,16 @@ function PayWithPayPal (props) {
                 .render(paypalRef.current);
         }
     }, [props]);
-
+    let idUser=1
+    if (localStorage.getItem('appState')!= null) {
+        const userdata = {test: JSON.parse(localStorage["appState"])}
+         idUser = userdata.test.user.id;
+    }
     if (paidFor) {
         const customerSignup={
             'event':items.id,
             'ticket':ticket.id,
-            'user':1,
+            'user':idUser,
             'status':1
         }
         axios.post(url+'/payment/pay', customerSignup)
