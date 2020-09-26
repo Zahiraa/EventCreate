@@ -28,6 +28,7 @@ export default class EventDesc extends React.Component {
             event: [],
             recommended_events: [],
             payments: [],
+            user: [],
 
         }
     }
@@ -56,6 +57,7 @@ export default class EventDesc extends React.Component {
     }
 
     componentDidMount() {
+
         this.getEventInfos(this.state.id)
         if (localStorage.getItem('appState')!= null){
         const userdata={test: JSON.parse(localStorage["appState"])}
@@ -67,6 +69,12 @@ export default class EventDesc extends React.Component {
                 })
 
             })
+            getResults(url+'/users/'+idUser,data=>{
+                this.setState({
+                    user:data,
+                })
+
+            })
         }
 
 
@@ -75,7 +83,10 @@ export default class EventDesc extends React.Component {
     render() {
         console.log("teeeehis.state")
         console.log(this.state)
-
+        let currentUser=[]
+        if(this.state.user && this.state.user.length>0 ) {
+           currentUser=this.state.user[0]
+        }
 
         let recommended=this.state.recommended_events
         console.log( 'recommended')
@@ -100,7 +111,7 @@ let id=this.props.match.params.id
         return (
      <div>
 
-         <EventHeader event={this.state.event?this.state.event:[]}/>
+         <EventHeader event={this.state.event?this.state.event:[]} currentUser={currentUser}/>
     <div className="pb-5" style={{marginTop: -100}}>
         <div className="container-fluid">
 

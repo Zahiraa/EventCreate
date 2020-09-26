@@ -125,6 +125,7 @@ Route::get('categories/{category}', 'CategoryController@show');
 //tags
 Route::get('tags', 'TagsController@index');
 Route::get('getNotificationsByUser/{userId}', 'NotificationController@getNotificationsByUser');
+Route::post('participerEvent', 'NotificationController@participerEvent');
 
 
 //paymnet

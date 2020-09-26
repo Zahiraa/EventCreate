@@ -1,26 +1,107 @@
 import React,{Component} from 'react';
 import event05 from '../../../../public/assets/img/event-05.jpg';
 import { Link } from 'react-router-dom';
+import {getResults} from "../../services";
+import ParticipationEvent from "./ParticipationEvent";
+import axios from "axios";
+
 
 export default class EventHeader extends React.Component {
 
+    constructor(props) {
+        super(props)
+        this.state={
+            message:''
+        }
+
+    }
+
+    participer=(user,event)=>(e)=>{
+
+        const url=process.env.MIX_REACT_APP_ROOT
+            //
+            //
+            // axios.get(url+'/participerEvent/'+user+'/'+event,{
+            //
+            //
+            //
+            // })
+            //     .then(Response =>{
+            //         const message = Response.message;
+            //
+            //         if(message==="ok") {
+            //
+            //           //  window.location.href = "ParticipationEvent/" + user + '/' + event
+            //             window.location.href="/ParticipationEvent/" + user + '/' + event;
+            //         }
+            //         //    return <ParticipationEvent message={this.state.message} event={event}/>
+            //
+            //
+            //     }).catch(err => console.log(err));
+            // console.log('error')
+
+
+
+            e.preventDefault();
+            console.log('rr')
+
+            axios.post(url+'/participerEvent',{
+                data:
+                    {
+                        user:user,
+                        event:event
+                    }
+
+
+            }) .then(res => {
+                const data = res.data.message;
+                if(data==="ok"){
+                    // window.location.href="/ParticipationEvent/" + user + '/' + event;
+                    this.setState({
+                        message: data,
+
+
+                    })
+                }
+                else{
+                   alert('rr')
+                }
+            })
+                .catch(err => console.log(err));
+
+
+
+
+    }
+
     render() {
-       console.log('this.props')
-       console.log(this.props.event ,this.props.event.media)
-        let img=event05
-        if(this.props.event && this.props.event.media) {
 
-            for(let i=0;i<this.props.event.media.length;i++){
-                if(this.props.event.media[i].title!=="assurance" && this.props.event.media[i].title!=="autorisation"){
 
-                     img=this.props.event.media[i].url
+
+        console.log('this.props')
+        console.log(this.props.event)
+        let img = event05
+        if (this.props.event && this.props.event.media) {
+
+            for (let i = 0; i < this.props.event.media.length; i++) {
+                if (this.props.event.media[i].title !== "assurance" && this.props.event.media[i].title !== "autorisation") {
+
+                    img = this.props.event.media[i].url
                     break
                 }
             }
 
         }
 
-let event=this.props.event
+        let event = this.props.event
+        let participer = false
+        let currentUser = this.props.currentUser
+        if (currentUser){
+            if (currentUser.role && currentUser.role.libelle != "admin" && currentUser.role.libelle != "user" && currentUser.role.libelle != "organisateur") {
+                participer = true
+            }
+    }
+
         return (
             <div>
 
@@ -70,8 +151,19 @@ let event=this.props.event
                             <div className="col-md-7 text-center" data-aos="fade-up" data-aos-delay="400">
                                 <h1 className="event_desctitle">{event.title}</h1>
                                 <p className="mb-4 event_desc"><span className="small">{event.description}</span></p>
+                                {participer?<button className="btn btn-secondary p-3 text-uppercase" onClick={this.participer(currentUser.id,event.id)}>Participer a l'event</button>:""}
+                                {this.state.message==="ok"?
 
-                                <div id="playerContainer"></div>
+                                            <div className="offset-1 mt-3 col-10 alert alert-success text-capitalize" style={{padding: 30}}>
+                                                <a href="#" className="close" data-dismiss="alert" aria-label="close">×</a>
+                                                Nous vous remercions de votre demande de participation a l'event {this.props.event.title}.Une fois la demande  acceptée , vous serez notifier
+                                            </div>
+
+                                        :null}
+
+
+
+
 
                             </div>
                         </div>
