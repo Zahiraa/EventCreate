@@ -6,9 +6,23 @@ import { Redirect } from 'react-router';
 
 export default class WelcomeMessage extends Component {
     redirect=()=>{
+        if (localStorage.getItem('appState')!= null) {
 
-            // return  <Redirect to="/dashboard#/events/add" />;
-             window.location.href="/dashboard#/events/add"
+            const userdata = {test: JSON.parse(localStorage["appState"])}
+
+            const isLoggedIn = userdata.test.isLoggedIn;
+            if(isLoggedIn===false){
+                 window.location.href = "/login"
+            }
+            else{
+                window.location.href = "/dashboard#/events/add"
+            }
+
+        }
+        else{
+
+            window.location.href = "/login"
+        }
 
     }
     render() {
